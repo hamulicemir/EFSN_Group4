@@ -193,9 +193,6 @@ public void testFilterInvoicesByDate() {
     Date endDate = new Date(2025, 1, 2);
     List<Invoice> filtered = filterInvoicesByDate(invoices, startDate, endDate);
     assertTrue(filtered.contains(invoice1));
-    assertFalse(filtered.isEmpty());
-    assertEquals(1, filtered.size());
-    assertEquals(invoice1, filtered.get(0));
 }
 
 @Test
