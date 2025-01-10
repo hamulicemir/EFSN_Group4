@@ -22,6 +22,10 @@ public class Order {
         this.invoiceNumber = invoiceNumber;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
     public double calculateTotalCost(CHARGING_TYPE chargingType, double chargingTimeMinutes, double kWhConsumed){
         double typeCost = 0;
         if (chargingType == CHARGING_TYPE.AC)

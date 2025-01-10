@@ -7,11 +7,28 @@ public class Customer {
     private double customerBalance;
     private String customerPassword;
 
-    public Customer(int customerID, String customerEmail,String customerName,double customerBalance){
+    public Customer(int customerID, String customerEmail,String customerName,double customerBalance, String customerPassword){
         this.customerID = customerID;
         this.customerEmail = customerEmail;
         this.customerName = customerName;
         this.customerBalance = customerBalance;
+        this.customerPassword= customerPassword;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public int getCustomerID() {
+        return customerID;
+    }
+
+    public double getCustomerBalance() {
+        return customerBalance;
+    }
+
+    public String getCustomerPassword() {
+        return customerPassword;
     }
 
     public boolean register(String customerEmail, String customerName, String customerPassword){

@@ -14,6 +14,14 @@ public class ChargingPoints {
         this.chargingType = chargingType;
     }
 
+    public int getPointID() {
+        return pointID;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
     public void updateStatus(STATUS newStatus){
         this.status = newStatus;
     }

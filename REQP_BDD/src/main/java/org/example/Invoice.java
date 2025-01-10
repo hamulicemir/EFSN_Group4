@@ -9,6 +9,10 @@ public class Invoice {
         this.order = order;
     }
 
+    public int getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
     public String generateInvoice(){
         StringBuilder sb = new StringBuilder();
         sb.append("Invoice Number: ").append(invoiceNumber).append("\n");

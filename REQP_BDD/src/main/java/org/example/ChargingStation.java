@@ -19,7 +19,11 @@ public class ChargingStation {
         this.pricePerMinute = pricePerMinute;
         this.pricePerKWh = pricePerKWh;
         this.status = status;
-        this.chargingType = getChargingType();
+        this.chargingType = chargingType;
+    }
+
+    public List<ChargingPoints> getPointsList() {
+        return pointsList;
     }
 
     public void addCharingPoint(ChargingPoints chargingPoint) {
