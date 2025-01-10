@@ -8,10 +8,8 @@ import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
 
 import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 
@@ -23,22 +21,24 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 public class StepsManageInvoice {
 
     private boolean loggedInAsOwner;
-    private List<String> invoices;// Initialisiere die Liste
-    private List<String> filteredInvoices;
+    private List<Invoice> invoices;// Initialisiere die Liste
+    private List<Invoice> filteredInvoices;
 
     Customer customer1 = new Customer(2, "martin.martin@gmail.com", "martin", 2.0);
     ChargingStation chargingStation1 = new ChargingStation(101, "Downtown", 0.2, 0.5, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.AC);
-    ChargingPoints chargingPoints1 = new ChargingPoints(1, "Wien", STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.AC);
+    ChargingPoints chargingPoints1 = new ChargingPoints(1, "Wien", STATUS.IN_BETRIEB_BESETZT, CHARGING_TYPE.AC);
 
     Invoice invoice1 = new Invoice(1, new Order(1, customer1,chargingStation1, chargingPoints1, new Date(2025,1,1, 1,1) , new Date(2025,1,1, 2,1), 1));
     Invoice invoice2 = new Invoice(2, new Order(2, customer1,chargingStation1, chargingPoints1, new Date(2025,2,2, 2,2) , new Date(2025,1,1, 3,1), 1));
 
     public StepsManageInvoice() {
         invoices = new ArrayList<>(); // Initialisiere die Liste im Konstruktor
+        listenfill(invoice1);
+        listenfill(invoice2);
     }
 
-    public List<String> listenfill (Invoice invoice1){
-        invoices.add(String.valueOf(invoice1));
+    public List<Invoice> listenfill (Invoice invoice1){
+        invoices.add(invoice1);
         return invoices;
     }
 
@@ -62,7 +62,7 @@ public void i_view_the_invoice_section() {
 
     @Then("I should see a list of invoices sorted by the start time of the charging process")
     public void i_should_see_a_list_of_invoices_sorted_by_the_start_time_of_the_charging_process() {
-        invoices.sort(String::compareTo);
+        invoices.sort(Comparator.comparing(invoice -> invoice.getOrder().getStartTime()));
         System.out.println("Invoices sorted by start time: " + invoices);
     }
 
@@ -85,26 +85,66 @@ public void i_view_the_invoice_section() {
         System.out.println("Comprehensive invoice list: " + filteredInvoices);
     }
 
-    @Then("the list should be filterable by date, location, charging mode, and status.")
+    @And("the list should be filterable by date, location, charging mode, and status.")
     public void the_list_should_be_filterable_by_date_location_charging_mode_and_status() {
-        filteredInvoices = filterInvoices("date", "location", "chargingMode", "status");
+        filteredInvoices = filterInvoicesByStatus(invoices, STATUS.IN_BETRIEB_BESETZT);
         System.out.println("Filtered invoices: " + filteredInvoices);
     }
 
-    private List<String> fetchInvoices() {
-        List<String> mockInvoices = new ArrayList<>();
-        mockInvoices.add("Invoice1: StartTime=2023-01-01 10:00");
-        mockInvoices.add("Invoice2: StartTime=2023-01-01 11:00");
+    private List<Invoice> fetchInvoices() {
+        List<Invoice> mockInvoices = new ArrayList<>();
+        mockInvoices.add(invoice1);
+        mockInvoices.add(invoice2);
         return mockInvoices;
     }
 
-    private List<String> filterInvoices(String... filters) {
-        List<String> filtered = new LinkedList<>();
-        for (String invoice : invoices) {
-            if (invoice.contains("StartTime=2023-01-01")) {
+    private List<Invoice> filterInvoicesByDate(List<Invoice> invoices, Date startDate, Date endDate) {
+        List<Invoice> filtered = new LinkedList<>();
+
+        for (Invoice invoice : invoices) {
+            if (invoice.getOrder().getStartTime() != null &&
+                    (invoice.getOrder().getStartTime().equals(startDate) || invoice.getOrder().getStartTime().after(startDate)) &&
+                    (invoice.getOrder().getEndTime().equals(endDate) || invoice.getOrder().getEndTime().before(endDate))) {
                 filtered.add(invoice);
             }
         }
         return filtered;
     }
+
+    public List<Invoice> filterInvoicesByLocation(List<Invoice> invoices, String location) {
+        List<Invoice> filtered = new LinkedList<>();
+
+        for (Invoice invoice : invoices) {
+            if (invoice.getOrder().getLocation() != null && invoice.getOrder().getLocation().equalsIgnoreCase(location)) {
+                filtered.add(invoice);
+            }
+        }
+
+        return filtered;
+    }
+
+    public List<Invoice> filterInvoicesByChargingMode(List<Invoice> invoices, CHARGING_TYPE chargingMode) {
+        List<Invoice> filtered = new LinkedList<>();
+
+        for (Invoice invoice : invoices) {
+            if (invoice.getOrder().getChargingType() == chargingMode) {
+                filtered.add(invoice);
+            }
+        }
+
+        return filtered;
+    }
+
+    public List<Invoice> filterInvoicesByStatus(List<Invoice> invoices, STATUS status) {
+        List<Invoice> filtered = new LinkedList<>();
+
+        for (Invoice invoice : invoices) {
+            if (invoice.getOrder().getStatus() == status) {
+                filtered.add(invoice);
+            }
+        }
+
+        return filtered;
+    }
+
 }

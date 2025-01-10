@@ -38,6 +38,22 @@ public class Order {
         return Math.round(totalCost);
     }
 
+    public Date getStartTime() {
+        return startTime;
+    }
+    public Date getEndTime() {
+        return endTime;
+    }
+    public String getLocation(){
+        return chargingStation.getLocation();
+    }
+    public CHARGING_TYPE getChargingType(){
+        return chargingPoint.getChargingType();
+    }
+    public STATUS getStatus() {
+        return chargingPoint.getStatus();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

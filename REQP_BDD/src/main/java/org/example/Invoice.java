@@ -15,4 +15,10 @@ public class Invoice {
         sb.append("Order: ").append(order.toString()).append("\n");
         return sb.toString();
     }
+
+    public Order getOrder() {
+        return order;
+    }
+
+
 }
