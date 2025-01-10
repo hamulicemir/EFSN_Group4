@@ -23,14 +23,6 @@ public class Customer {
         return customerID;
     }
 
-    public double getCustomerBalance() {
-        return customerBalance;
-    }
-
-    public String getCustomerPassword() {
-        return customerPassword;
-    }
-
     public boolean register(String customerEmail, String customerName, String customerPassword){
         if (customerEmail == null || customerName == null || customerPassword == null) {
             return false;
