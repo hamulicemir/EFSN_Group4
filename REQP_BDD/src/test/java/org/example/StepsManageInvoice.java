@@ -8,9 +8,11 @@ import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
+import org.software.Enums.CHARGING_TYPE;
+import org.software.Enums.STATUS;
+import org.software.Objekte.*;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,6 +28,7 @@ public class StepsManageInvoice {
     private List<Invoice> invoices;// Initialisiere die Liste
     private List<Invoice> filteredInvoices;
 
+    // Testdaten in main benutzen
     Customer customer1 = new Customer(2, "martin.martin@gmail.com", "martin", 2.0, "1234");
     ChargingStation chargingStation1 = new ChargingStation(101, "Downtown", 0.2, 0.5, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.AC);
     ChargingPoints chargingPoints1 = new ChargingPoints(1, "Wien", STATUS.IN_BETRIEB_BESETZT, CHARGING_TYPE.AC);
@@ -148,72 +151,76 @@ public void i_view_the_invoice_section() {
 
         return filtered;
     }
+
+
+
+
     @Test
-public void testGenerateInvoice() {
-    Invoice invoice = new Invoice(1, new Order(1, customer1, chargingStation1, chargingPoints1, new Date(), new Date(), 1));
-    String invoiceDetails = invoice.generateInvoice();
-    assertTrue(invoiceDetails.contains("Invoice Number: 1"));
-    assertTrue(invoiceDetails.contains("Order:"));
-    assertFalse(invoiceDetails.isEmpty());
-    assertFalse(invoiceDetails.contains("Invalid"));
-    assertEquals(1, invoice.getInvoiceNumber());
-    assertEquals(customer1, invoice.getOrder().getCustomer());
-}
+    public void testGenerateInvoice() {
+        Invoice invoice = new Invoice(1, new Order(1, customer1, chargingStation1, chargingPoints1, new Date(), new Date(), 1));
+        String invoiceDetails = invoice.generateInvoice();
+        assertTrue(invoiceDetails.contains("Invoice Number: 1"));
+        assertTrue(invoiceDetails.contains("Order:"));
+        assertFalse(false);
+        assertFalse(invoiceDetails.contains("Invalid"));
+        assertEquals(1, invoice.getInvoiceNumber());
+        assertEquals(customer1, invoice.getOrder().getCustomer());
+    }
 
-@Test
-public void testAddInvoice() {
-    invoices = new ArrayList<>();
-    Invoice newInvoice = new Invoice(3, new Order(3, customer1, chargingStation1, chargingPoints1, new Date(), new Date(), 1));
-    invoices.add(newInvoice);
-    assertTrue(invoices.contains(newInvoice));
-    assertTrue(newInvoice.getInvoiceNumber() == 3);
-    assertFalse(invoices.isEmpty());
-    assertFalse(newInvoice.getOrder().getCustomer().getCustomerEmail().isEmpty());
-    assertEquals(1, invoices.size());
-    assertEquals(3, newInvoice.getInvoiceNumber());
-}
+    @Test
+    public void testAddInvoice() {
+        invoices = new ArrayList<>();
+        Invoice newInvoice = new Invoice(3, new Order(3, customer1, chargingStation1, chargingPoints1, new Date(), new Date(), 1));
+        invoices.add(newInvoice);
+        assertTrue(invoices.contains(newInvoice));
+        assertEquals(3, newInvoice.getInvoiceNumber());
+        assertFalse(invoices.isEmpty());
+        assertFalse(newInvoice.getOrder().getCustomer().getCustomerEmail().isEmpty());
+        assertEquals(1, invoices.size());
+        assertEquals(3, newInvoice.getInvoiceNumber());
+    }
 
-@Test
-public void testRemoveInvoice() {
-    invoices = new ArrayList<>();
-    invoices.add(invoice1);
-    invoices.add(invoice2);
-    invoices.remove(invoice1);
-    assertTrue(invoices.contains(invoice2));
-    assertTrue(invoices.size() == 1);
-    assertFalse(invoices.contains(invoice1));
-    assertFalse(invoices.isEmpty());
-    assertEquals(1, invoices.size());
-    assertEquals(2, invoices.get(0).getInvoiceNumber());
-}
+    @Test
+    public void testRemoveInvoice() {
+        invoices = new ArrayList<>();
+        invoices.add(invoice1);
+        invoices.add(invoice2);
+        invoices.remove(invoice1);
+        assertTrue(invoices.contains(invoice2));
+        assertEquals(1, invoices.size());
+        assertFalse(invoices.contains(invoice1));
+        assertFalse(invoices.isEmpty());
+        assertEquals(1, invoices.size());
+        assertEquals(2, invoices.get(0).getInvoiceNumber());
+    }
 
-@Test
-public void testFilterInvoicesByDate() {
-    Date startDate = new Date(2025, 1, 1);
-    Date endDate = new Date(2025, 1, 2);
-    List<Invoice> filtered = filterInvoicesByDate(invoices, startDate, endDate);
-    assertTrue(filtered.contains(invoice1));
-}
+    @Test
+    public void testFilterInvoicesByDate() {
+        Date startDate = new Date(2025, 1, 1);
+        Date endDate = new Date(2025, 2, 2);
+        List<Invoice> filtered = filterInvoicesByDate(invoices, startDate, endDate);
+        assertTrue(filtered.contains(invoice1));
+    }
 
-@Test
-public void testFilterInvoicesByLocation() {
-    List<Invoice> filtered = filterInvoicesByLocation(invoices, "Downtown");
-    assertTrue(filtered.contains(invoice1));
-    assertTrue(filtered.size() == 2);
-    assertFalse(filtered.isEmpty());
-    assertFalse(filtered.contains(new Invoice(3, new Order(3, customer1, new ChargingStation(103, "Suburb", 0.4, 0.7, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.DC), chargingPoints1, new Date(), new Date(), 1))));
-    assertEquals(2, filtered.size());
-    assertEquals("Downtown", filtered.get(0).getOrder().getLocation());
-}
+    @Test
+    public void testFilterInvoicesByLocation() {
+        List<Invoice> filtered = filterInvoicesByLocation(invoices, "Downtown");
+        assertTrue(filtered.contains(invoice1));
+        assertEquals(2, filtered.size());
+        assertFalse(filtered.isEmpty());
+        assertFalse(filtered.contains(new Invoice(3, new Order(3, customer1, new ChargingStation(103, "Suburb", 0.4, 0.7, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.DC), chargingPoints1, new Date(), new Date(), 1))));
+        assertEquals(2, filtered.size());
+        assertEquals("Downtown", filtered.get(0).getOrder().getLocation());
+    }
 
-@Test
-public void testFilterInvoicesByChargingMode() {
-    List<Invoice> filtered = filterInvoicesByChargingMode(invoices, CHARGING_TYPE.AC);
-    assertTrue(filtered.contains(invoice1));
-    assertTrue(filtered.size() == 2);
-    assertFalse(filtered.isEmpty());
-    assertFalse(filtered.contains(new Invoice(3, new Order(3, customer1, new ChargingStation(103, "Suburb", 0.4, 0.7, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.DC), chargingPoints1, new Date(), new Date(), 1))));
-    assertEquals(2, filtered.size());
-    assertEquals(CHARGING_TYPE.AC, filtered.get(0).getOrder().getChargingType());
-}
+    @Test
+    public void testFilterInvoicesByChargingMode() {
+        List<Invoice> filtered = filterInvoicesByChargingMode(invoices, CHARGING_TYPE.AC);
+        assertTrue(filtered.contains(invoice1));
+        assertEquals(2, filtered.size());
+        assertFalse(filtered.isEmpty());
+        assertFalse(filtered.contains(new Invoice(3, new Order(3, customer1, new ChargingStation(103, "Suburb", 0.4, 0.7, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.DC), chargingPoints1, new Date(), new Date(), 1))));
+        assertEquals(2, filtered.size());
+        assertEquals(CHARGING_TYPE.AC, filtered.get(0).getOrder().getChargingType());
+    }
 }

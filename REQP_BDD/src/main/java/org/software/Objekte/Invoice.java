@@ -1,4 +1,4 @@
-package org.example;
+package org.software.Objekte;
 
 public class Invoice {
     private int invoiceNumber;

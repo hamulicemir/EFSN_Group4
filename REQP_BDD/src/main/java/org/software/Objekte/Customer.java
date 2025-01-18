@@ -1,4 +1,4 @@
-package org.example;
+package org.software.Objekte;
 
 public class Customer {
     private int customerID;

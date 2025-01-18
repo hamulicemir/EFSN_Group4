@@ -6,13 +6,33 @@
   <component name="ChangeListManager">
     <list default="true" id="b87c75fd-721b-44dd-8031-6383f49a89ba" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/example/CHARGING_TYPE.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/software/Enums/CHARGING_TYPE.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/example/ChargingPoints.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/software/Objekte/ChargingPoints.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/example/ChargingStation.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/software/Objekte/ChargingStation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/example/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/software/Objekte/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/example/Invoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/software/Objekte/Invoice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/example/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/software/Objekte/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/example/STATUS.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/software/Enums/STATUS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsChooseChargingStation.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsChooseChargingStation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsManageAccountData.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsManageAccountData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsManageChargingStation.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsManageChargingStation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsManageInvoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsManageInvoice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/test/resources/org/example/chooseChargingStation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/test/resources/org/example/chooseChargingStation.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/test/resources/org/example/manageAccountData.feature" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/test/resources/org/example/manageAccountData.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/test/resources/org/example/manageChargingStation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/test/resources/org/example/manageChargingStation.feature" afterDir="false" />
     </list>
     <list id="a2a7ce09-fc11-433e-b042-979ab0ba8754" name="Changes by Markus" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -29,6 +49,11 @@
     &quot;accountId&quot;: &quot;82092a89-494a-400a-a62c-6ba919221d9c&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$MAVEN_REPOSITORY$/io/cucumber/datatable/7.20.1/datatable-7.20.1-sources.jar!/io/cucumber/datatable/DataTable.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/io/cucumber/datatable/7.20.1/datatable-7.20.1-sources.jar!/io/cucumber/datatable/DataTableType.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/io/cucumber/datatable/7.20.1/datatable-7.20.1-sources.jar!/io/cucumber/datatable/DataTableTypeRegistryTableConverter.java" root0="SKIP_INSPECTION" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -39,12 +64,18 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Cucumber Java.Feature: chooseChargingStation.executor": "Run",
+    "Cucumber Java.Scenario: Add Charging Station.executor": "Run",
+    "Cucumber Java.Scenario: View Charging Station Information.executor": "Run",
+    "JUnit.StepsChooseChargingStation.executor": "Run",
+    "JUnit.StepsManageAccountData.executor": "Run",
+    "JUnit.StepsManageChargingStation.executor": "Run",
     "JUnit.StepsManageInvoice.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/adirg/OneDrive/Desktop/REQEP_Projekt/EFSN_Group4",
+    "last_opened_file_path": "C:/Users/adirg/OneDrive/Desktop/Beispiel",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -53,12 +84,51 @@
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "settings.sync",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
-    <configuration name="StepsManageInvoice" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.StepsChooseChargingStation">
+    <configuration name="Feature: chooseChargingStation" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
+      <option name="CUCUMBER_CORE_VERSION" value="5" />
+      <option name="FILE_PATH" value="$PROJECT_DIR$/REQP_BDD/src/test/resources/org/example/chooseChargingStation.feature" />
+      <option name="GLUE" value="org.example" />
+      <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
+      <module name="REQP_BDD" />
+      <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter" />
+      <option name="SUGGESTED_NAME" value="Feature: chooseChargingStation" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.cucumber.core.cli.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Scenario: View Charging Station Information" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
+      <option name="CUCUMBER_CORE_VERSION" value="5" />
+      <option name="FILE_PATH" value="$PROJECT_DIR$/REQP_BDD/src/test/resources/org/example/chooseChargingStation.feature" />
+      <option name="GLUE" value="org.example" />
+      <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
+      <module name="REQP_BDD" />
+      <option name="NAME_FILTER" value="^View Charging Station Information$" />
+      <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter --name &quot;^View Charging Station Information$&quot;" />
+      <option name="SUGGESTED_NAME" value="Scenario: View Charging Station Information" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.cucumber.core.cli.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StepsChooseChargingStation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="REQP_BDD" />
       <extension name="coverage">
         <pattern>
@@ -67,7 +137,37 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="org.example" />
-      <option name="MAIN_CLASS_NAME" value="org.example.StepsManageInvoice" />
+      <option name="MAIN_CLASS_NAME" value="org.example.StepsChooseChargingStation" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StepsManageAccountData" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="REQP_BDD" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example" />
+      <option name="MAIN_CLASS_NAME" value="org.example.StepsManageAccountData" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StepsManageChargingStation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="REQP_BDD" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example" />
+      <option name="MAIN_CLASS_NAME" value="org.example.StepsManageChargingStation" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -75,9 +175,21 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.StepsManageInvoice" />
+        <item itemvalue="JUnit.StepsChooseChargingStation" />
+        <item itemvalue="JUnit.StepsManageChargingStation" />
+        <item itemvalue="JUnit.StepsManageAccountData" />
+        <item itemvalue="Cucumber Java.Feature: chooseChargingStation" />
+        <item itemvalue="Cucumber Java.Scenario: View Charging Station Information" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.117" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.117" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -91,6 +203,7 @@
       <workItem from="1736531255802" duration="2553000" />
       <workItem from="1736535881508" duration="232000" />
       <workItem from="1736536213593" duration="1475000" />
+      <workItem from="1737151138476" duration="7033000" />
     </task>
     <servers />
   </component>

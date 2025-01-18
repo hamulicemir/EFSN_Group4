@@ -1,4 +1,4 @@
-package org.example;
+package org.software.Enums;
 
 public enum STATUS {
     IN_BETRIEB_FREI,

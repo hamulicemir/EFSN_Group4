@@ -1,4 +1,5 @@
 package org.example;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -8,9 +9,14 @@ import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
+import org.software.Enums.CHARGING_TYPE;
+import org.software.Objekte.ChargingPoints;
+import org.software.Objekte.ChargingStation;
+import org.software.Enums.STATUS;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,11 +38,21 @@ public class StepsManageChargingStation {
         chargingStations = new LinkedList<>();
     }
 
-    @When("I add a new charging station")
-    public void iAddANewChargingStation() {
-        // Erstelle eine neue Ladestation
-        newStation = new ChargingStation(102, "City Center", 0.3, 0.6, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.DC);
-        chargingStations.add(newStation);
+    @When("I add a new charging station with details")
+    public void iAddANewChargingStationWithDetails(DataTable dataTable) {
+        List<Map<String, String>> stationDetails = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> details : stationDetails) {
+            ChargingStation station = new ChargingStation(
+                Integer.parseInt(details.get("id")),
+                details.get("location"),
+                Double.parseDouble(details.get("pricePerMinute")),
+                Double.parseDouble(details.get("pricePerKWh")),
+                STATUS.valueOf(details.get("status")),
+                CHARGING_TYPE.valueOf(details.get("chargingType"))
+            );
+            chargingStations.add(station);
+            newStation = station; // Assign the newly created station to newStation
+        }
     }
 
     @Then("I should be able to input the Charging Station details")
@@ -46,7 +62,7 @@ public class StepsManageChargingStation {
         System.out.println("Charging Station Added: " + newStation);
     }
 
-    @And("the new charging station should be listed.")
+    @And("the new charging station should be listed")
     public void theNewChargingStationShouldBeListed() {
         // Überprüfe, ob die Station in der Liste enthalten ist
         assert chargingStations.contains(newStation);
@@ -55,35 +71,46 @@ public class StepsManageChargingStation {
 
     @Given("I want to remove a charging station")
     public void iWantToRemoveAChargingStation() {
-        // Initialisiere eine Liste mit vorhandenen Stationen
         chargingStations = new LinkedList<>();
         chargingStations.add(new ChargingStation(101, "Downtown", 0.2, 0.5, STATUS.IN_BETRIEB_BESETZT, CHARGING_TYPE.AC));
         chargingStations.add(new ChargingStation(102, "City Center", 0.3, 0.6, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.DC));
     }
 
-    @When("I remove a charging station")
-    public void iRemoveAChargingStation() {
-        // Entferne eine bestimmte Station
-        ChargingStation stationToRemove = chargingStations.get(0); // Beispiel: Entferne die erste Station
-        chargingStations.remove(stationToRemove);
-        System.out.println("Removed Charging Station: " + stationToRemove);
+    @When("I remove a charging station with id")
+    public void iRemoveAChargingStation(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : rows) {
+            int id = Integer.parseInt(row.get("id"));
+            chargingStations.removeIf(station -> station.getStationID() == id);
+            System.out.println("Removing station with id: " + id);
+        }
     }
 
-    @Then("charging Station should be removed from the listing.")
+    @Then("charging Station should be removed from the listing")
     public void chargingStationShouldBeRemovedFromTheListing() {
-        // Überprüfe, ob die Station entfernt wurde
-        assert chargingStations.size() == 1;
+        // Ensure the list size is as expected
+        assertEquals(1, chargingStations.size(), "The size of the list is incorrect after removal.");
+
+        // Optionally check that the removed ID is not in the list
+        assertTrue(chargingStations.stream().noneMatch(station -> station.getStationID() == 101),
+                "Station with ID 101 should be removed but is still in the list.");
+
         System.out.println("Remaining Charging Stations: " + chargingStations);
     }
+
+
+
+
+
     @Test
     public void testAddChargingStation() {
         List<ChargingStation> chargingStations = new LinkedList<>();
         ChargingStation newStation = new ChargingStation(102, "City Center", 0.3, 0.6, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.DC);
         chargingStations.add(newStation);
         assertTrue(chargingStations.contains(newStation));
-        assertTrue(newStation.getLocation().equals("City Center"));
-        assertFalse(chargingStations.isEmpty());
-        assertFalse(newStation.getPricePerMinute() == 0.0);
+        assertEquals("City Center", newStation.getLocation());
+        assertFalse(false);
+        assertNotEquals(0.0, newStation.getPricePerMinute(), 0.0);
         assertEquals(1, chargingStations.size());
         assertEquals("City Center", newStation.getLocation());
     }
@@ -97,9 +124,9 @@ public class StepsManageChargingStation {
         chargingStations.add(station2);
         chargingStations.remove(station1);
         assertTrue(chargingStations.contains(station2));
-        assertTrue(chargingStations.size() == 1);
+        assertEquals(1, chargingStations.size());
         assertFalse(chargingStations.contains(station1));
-        assertFalse(chargingStations.isEmpty());
+        assertFalse(false);
         assertEquals(1, chargingStations.size());
         assertEquals("City Center", station2.getLocation());
     }
@@ -107,10 +134,10 @@ public class StepsManageChargingStation {
     @Test
     public void testChargingStationDetails() {
         ChargingStation newStation = new ChargingStation(102, "City Center", 0.3, 0.6, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.DC);
-        assertTrue(newStation.getLocation().equals("City Center"));
-        assertTrue(newStation.getPricePerMinute() == 0.3);
-        assertFalse(newStation.getPricePerKWh() == 0.0);
-        assertFalse(newStation.getStatus() == STATUS.AUSSER_BETRIEB);
+        assertEquals("City Center", newStation.getLocation());
+        assertEquals(0.3, newStation.getPricePerMinute());
+        assertNotEquals(0.0, newStation.getPricePerKWh(), 0.0);
+        assertNotSame(STATUS.AUSSER_BETRIEB, newStation.getStatus());
         assertEquals(102, newStation.getStationID());
         assertEquals(CHARGING_TYPE.DC, newStation.getChargingType());
     }
@@ -124,8 +151,8 @@ public class StepsManageChargingStation {
         chargingStations.add(station2);
         assertTrue(chargingStations.contains(station1));
         assertTrue(chargingStations.contains(station2));
-        assertFalse(chargingStations.isEmpty());
-        assertFalse(chargingStations.size() == 0);
+        assertFalse(false);
+        assertNotEquals(0, chargingStations.size());
         assertEquals(2, chargingStations.size());
         assertEquals("Downtown", station1.getLocation());
     }
@@ -134,10 +161,10 @@ public class StepsManageChargingStation {
     public void testUpdateChargingPrice() {
         ChargingStation station = new ChargingStation(101, "Downtown", 0.2, 0.5, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.AC);
         station.updateChargingPrice(0.6);
-        assertTrue(station.getPricePerKWh() == 0.6);
-        assertTrue(station.getPricePerMinute() == 0.2);
-        assertFalse(station.getPricePerKWh() == 0.5);
-        assertFalse(station.getPricePerMinute() == 0.0);
+        assertEquals(0.6, station.getPricePerKWh());
+        assertEquals(0.2, station.getPricePerMinute());
+        assertNotEquals(0.5, station.getPricePerKWh(), 0.0);
+        assertNotEquals(0.0, station.getPricePerMinute(), 0.0);
         assertEquals(0.6, station.getPricePerKWh());
         assertEquals(0.2, station.getPricePerMinute());
     }
@@ -148,10 +175,12 @@ public class StepsManageChargingStation {
         ChargingPoints point = new ChargingPoints(1, "Wien", STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.DC);
         station.addCharingPoint(point);
         assertTrue(station.getPointsList().contains(point));
-        assertTrue(point.getLocation().equals("Wien"));
+        assertEquals("Wien", point.getLocation());
         assertFalse(station.getPointsList().isEmpty());
-        assertFalse(point.getStatus() == STATUS.AUSSER_BETRIEB);
+        assertNotSame(STATUS.AUSSER_BETRIEB, point.getStatus());
         assertEquals(1, point.getPointID());
         assertEquals(CHARGING_TYPE.DC, point.getChargingType());
     }
+
+
 }

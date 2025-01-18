@@ -1,4 +1,7 @@
-package org.example;
+package org.software.Objekte;
+
+import org.software.Enums.CHARGING_TYPE;
+import org.software.Enums.STATUS;
 
 import java.util.LinkedList;
 import java.util.List;

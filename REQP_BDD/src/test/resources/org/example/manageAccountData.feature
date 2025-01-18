@@ -9,11 +9,14 @@ Feature: Manage Account Data
     Then the system should validate the provided data
     And the account should be successfully created
 
-  Scenario: Top Up Account
+Scenario: Top Up Account
     Given I have an account
     And I want to add funds to my account
     When I click on top-up
     And I provide the payment details and top-up amount
+      | amount |
+      | 50.0   |
+      | 100.0  |
     Then the system should validate the payment details
     And process the payment
     And the funds should be added to my account balance
