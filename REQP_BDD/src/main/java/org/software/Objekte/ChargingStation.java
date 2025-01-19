@@ -57,7 +57,6 @@ public class ChargingStation {
         this.pricePerKWh = pricePerKWh;
     }
 
-
     public boolean removeChargingPoint (ChargingPoints chargingPoint) {
         if (pointsList.contains(chargingPoint)) {
             pointsList.remove(chargingPoint);

@@ -56,13 +56,9 @@ public class Customer {
         return customerName;
     }
 
-    /*
-        private int customerID;
-    private String customerEmail;
-    private String customerName;
-    private double customerBalance;
-    private String customerPassword;
-     */
+    public String getCustomerPassword() {
+        return customerPassword;
+    }
 
     @Override
     public String toString() {

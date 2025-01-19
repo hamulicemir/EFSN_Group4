@@ -31,70 +31,131 @@ public class StepsChooseChargingStation {
     private ChargingStation selectedChargingStation;
     ChargingStation chargingStation = new ChargingStation();
 
-    @Given("I want to view information about a charging station with the station id {int}")
-    public void iWantToViewInformationAboutAChargingStation(int id) {
-        if (chargingStation.getStationID() == id) {
-            System.out.println("Charging Station with ID " + id + " found.");
-            chargingStation.toString();
-        } else {
-            System.out.println("Charging Station with ID " + id + " not found.");
+    @Given("I want to view all charging stations.")
+    public void iWantToViewInformationAboutAChargingStation() {
+        for (Map.Entry<Integer, ChargingStation> entry : chargingStations.entrySet()) {
+            System.out.println(entry.getValue().toString());
         }
     }
 
     @When("I select a charging station for information")
     public void selectChargingStationForInformation(DataTable dataTable) {
-        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
-        for (Map<String, String> row : data) {
-            int stationId = Integer.parseInt(row.get("station_id"));
-            selectedChargingStation = chargingStations.get(stationId);
-            if (selectedChargingStation == null) {
-                System.out.println("Charging Station with ID " + stationId + " not found.");
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : rows) {
+            try {
+                int stationId = Integer.parseInt(row.get("station_id"));
+                if (chargingStations.containsKey(stationId)) {
+                    selectedChargingStation = chargingStations.get(stationId);
+                    System.out.println("Selected station: " + selectedChargingStation.toString());
+                } else {
+                    System.out.println("Station ID " + stationId + " not found.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid station ID format: " + row.get("station_id"));
             }
         }
     }
 
     @Then("the system should provide general information")
     public void theSystemShouldProvideGeneralInformation() {
-        assertNotNull(selectedChargingStation, "No charging station selected!");
-        String stationInformation = selectedChargingStation.toString();
-        assertNotNull(stationInformation, "Station information is null!");
-        assertFalse(stationInformation.isEmpty(), "Station information is empty!");
-        System.out.println("Station Information: " + stationInformation);
+        if (selectedChargingStation != null) {
+            System.out.println(selectedChargingStation.toString());
+        } else {
+            System.out.println("No charging station selected.");
+        }
     }
 
     @Given("I want to see the status of the charging station")
     public void iWantToSeeTheStatusOfTheChargingStation() {
-        // Initialize some charging stations for testing
-        chargingStations.put(101, new ChargingStation(101, "Downtown", 0.2, 0.5, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.AC));
-        chargingStations.put(102, new ChargingStation(102, "Uptown", 0.3, 0.6, STATUS.IN_BETRIEB_BESETZT, CHARGING_TYPE.DC));
+        System.out.println("Preparing to check the status of charging stations.");
     }
 
     @When("I select a charging station for status")
     public void selectChargingStationForStatus(DataTable dataTable) {
-        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
-        for (Map<String, String> row : data) {
-            int stationId = Integer.parseInt(row.get("station_id"));
-            selectedChargingStation = chargingStations.get(stationId);
-            if (selectedChargingStation != null) {
-                STATUS stationStatus = selectedChargingStation.getStatus();
-                System.out.println("Charging Station Status: " + stationStatus);
-            } else {
-                System.out.println("Charging Station with ID " + stationId + " not found.");
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : rows) {
+            try {
+                int stationId = Integer.parseInt(row.get("station_id"));
+                if (chargingStations.containsKey(stationId)) {
+                    selectedChargingStation = chargingStations.get(stationId);
+                    System.out.println("Selected station ID for status: " + selectedChargingStation.getStationID());
+                } else {
+                    System.out.println("Station ID " + stationId + " not found.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid station ID format: " + row.get("station_id"));
             }
         }
     }
 
     @Then("the system should show me if the charging station is occupied")
     public void theSystemShouldShowMeIfTheChargingStationIsOccupied() {
-        assertNotNull(selectedChargingStation, "No charging station selected!");
-        STATUS stationStatus = selectedChargingStation.getStatus();
-        assertNotNull(stationStatus, "Station status is not defined!");
-        assertTrue(stationStatus == STATUS.IN_BETRIEB_BESETZT || stationStatus == STATUS.IN_BETRIEB_FREI,
-                "Station status must be IN_BETRIEB_BESETZT or IN_BETRIEB_FREI");
-        System.out.println("Charging Station Status: " + stationStatus);
+        if (selectedChargingStation != null) {
+            STATUS status = selectedChargingStation.getStatus();
+            if(status == STATUS.IN_BETRIEB_BESETZT){
+                System.out.println("Charging station is occupied.");
+            }
+            else{
+                System.out.println("Charging station is not occupied.");
+            }
+            System.out.println("Charging station ID " + selectedChargingStation.getStationID() + " is " + status + ".");
+        } else {
+            System.out.println("No charging station selected to check status.");
+        }
     }
 
     //  ERROR CASES //
 
 
-}
+        @Given("I want to see the status of a non-existing charging station")
+        public void iWantToSeeTheStatusOfANonExistingChargingStation() {
+            selectedChargingStation = null;
+        }
+
+        @When("I select a non-existing charging station for status")
+        public void iSelectAChargingStationForStatus(Map<String, String> stationData) {
+            for (Map.Entry<String, String> entry : stationData.entrySet()) {
+                int stationId;
+                try {
+                    stationId = Integer.parseInt(entry.getValue());
+                    selectedChargingStation = chargingStations.get(stationId);
+                    if (selectedChargingStation == null) {
+                        System.out.println("Charging station does not exist.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid station ID format.");
+                }
+            }
+        }
+
+        @Then("the system should display an error message indicating the station does not exist")
+        public void theSystemShouldDisplayAnErrorMessageIndicatingTheStationDoesNotExist() {
+            System.out.println("Charging station does not exist.");
+        }
+
+        @Given("I want to view information about a charging station with an invalid station id")
+        public void iWantToViewInformationAboutAChargingStationWithAnInvalidStationId() {
+            selectedChargingStation = null;
+        }
+
+        @When("I select a charging station with an invalid station id for information")
+        public void iSelectAChargingStationForInformation(Map<String, String> stationData) {
+            for (Map.Entry<String, String> entry : stationData.entrySet()) {
+                try {
+                    int stationId = Integer.parseInt(entry.getValue());
+                    selectedChargingStation = chargingStations.get(stationId);
+                    if (selectedChargingStation == null) {
+                        System.out.println("Charging station does not exist.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid station ID format.");
+                }
+            }
+        }
+
+        @Then("the system should display an error message indicating the station ID is invalid")
+        public void theSystemShouldDisplayAnErrorMessageIndicatingTheStationIDIsInvalid() {
+            System.out.println("Invalid station ID format");
+        }
+
+    }

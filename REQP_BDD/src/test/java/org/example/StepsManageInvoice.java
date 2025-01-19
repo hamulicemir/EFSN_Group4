@@ -1,4 +1,5 @@
 package org.example;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -28,23 +29,21 @@ public class StepsManageInvoice {
     private List<Invoice> invoices;// Initialisiere die Liste
     private List<Invoice> filteredInvoices;
 
-    // Testdaten in main benutzen
-
-    public StepsManageInvoice() {
-        invoices = new ArrayList<>(); // Initialisiere die Liste im Konstruktor
-        listenfill(invoice1);
-        listenfill(invoice2);
-    }
-
-    public List<Invoice> listenfill (Invoice invoice1){
-        invoices.add(invoice1);
-        return invoices;
+    private boolean validateOwnerAccount(String email, String password){
+        return "admin@example.com".equals(email) && "admin123".equals(password);
     }
 
     @Given("I am logged in an owner account")
-    public void i_am_logged_in_an_owner_account() {
-        loggedInAsOwner = true;
-        System.out.println("Logged in as an owner account.");
+    public void i_am_logged_in_an_owner_account(DataTable dataTable) {
+        List<Map<String,String>> data = dataTable.asMaps(  );
+        String email = data.get(0).get("email");
+        String password = data.get(0).get("password");
+
+        if (validateOwnerAccount(email, password)){
+            loggedInAsOwner = true;
+        } else {
+            throw new IllegalArgumentException("Invalid owner credentials");
+        }
     }
 
     @When("I view the invoice section")
@@ -56,7 +55,7 @@ public class StepsManageInvoice {
             invoices = new ArrayList<>(); // Initialisiere die Liste, wenn sie null ist
         }
         invoices = fetchInvoices(); // Fetch invoices
-        System.out.println("Fetched invoice section.");
+        System.out.println("Fetched invoice section." + invoices);
     }
 
     @Then("I should see a list of invoices sorted by the start time of the charging process")
@@ -66,8 +65,11 @@ public class StepsManageInvoice {
     }
 
     @Then("I should see a summary of account top-ups and outstanding balance.")
-    public void i_should_see_a_summary_of_account_top_ups_and_outstanding_balance() {
-        System.out.println("Account summary: Top-ups = $1000, Outstanding Balance = $250.");
+    public void i_should_see_a_summary_of_account_top_ups_and_outstanding_balance(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps();
+        double totalTopUps = Double.parseDouble(data.get(0).get("totalTopUps"));
+        double totalOutstandingBalance = Double.parseDouble(data.get(0).get("totalOutstandingBalance"));
+        System.out.println("Account summary: \nTotal top ups: " + totalTopUps + "\nTotal outstanding balance: " + totalOutstandingBalance);
     }
 
     @When("I request to see all invoices")
@@ -86,29 +88,16 @@ public class StepsManageInvoice {
 
     @And("the list should be filterable by date, location, charging mode, and status.")
     public void the_list_should_be_filterable_by_date_location_charging_mode_and_status() {
+
         filteredInvoices = filterInvoicesByStatus(invoices, STATUS.IN_BETRIEB_BESETZT);
         System.out.println("Filtered invoices: " + filteredInvoices);
     }
 
     private List<Invoice> fetchInvoices() {
         List<Invoice> mockInvoices = new ArrayList<>();
-        mockInvoices.add(invoice1);
-        mockInvoices.add(invoice2);
         return mockInvoices;
     }
 
-    private List<Invoice> filterInvoicesByDate(List<Invoice> invoices, Date startDate, Date endDate) {
-        List<Invoice> filtered = new LinkedList<>();
-
-        for (Invoice invoice : invoices) {
-            if (invoice.getOrder().getStartTime() != null &&
-                    (invoice.getOrder().getStartTime().equals(startDate) || invoice.getOrder().getStartTime().after(startDate)) &&
-                    (invoice.getOrder().getEndTime().equals(endDate) || invoice.getOrder().getEndTime().before(endDate))) {
-                filtered.add(invoice);
-            }
-        }
-        return filtered;
-    }
 
     public List<Invoice> filterInvoicesByLocation(List<Invoice> invoices, String location) {
         List<Invoice> filtered = new LinkedList<>();
