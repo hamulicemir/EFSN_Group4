@@ -24,6 +24,11 @@ public class Invoice {
         return order;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "invoiceNumber=" + invoiceNumber +
+                ", order=" + order +
+                '}';
+    }
 }
