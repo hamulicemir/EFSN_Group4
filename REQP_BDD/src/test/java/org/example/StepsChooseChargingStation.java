@@ -11,6 +11,7 @@ import org.software.Enums.CHARGING_TYPE;
 import org.software.Objekte.ChargingPoints;
 import org.software.Objekte.ChargingStation;
 import org.software.Enums.STATUS;
+import org.software.Software;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,12 +29,16 @@ public class StepsChooseChargingStation {
 
     private Map<Integer, ChargingStation> chargingStations = new HashMap<>();
     private ChargingStation selectedChargingStation;
+    ChargingStation chargingStation = new ChargingStation();
 
-    @Given("I want to view information about a charging station")
-    public void iWantToViewInformationAboutAChargingStation() {
-        // Initialize some charging stations for testing
-        chargingStations.put(101, new ChargingStation(101, "Downtown", 0.2, 0.5, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.AC));
-        chargingStations.put(102, new ChargingStation(102, "Uptown", 0.3, 0.6, STATUS.IN_BETRIEB_BESETZT, CHARGING_TYPE.DC));
+    @Given("I want to view information about a charging station with the station id {int}")
+    public void iWantToViewInformationAboutAChargingStation(int id) {
+        if (chargingStation.getStationID() == id) {
+            System.out.println("Charging Station with ID " + id + " found.");
+            chargingStation.toString();
+        } else {
+            System.out.println("Charging Station with ID " + id + " not found.");
+        }
     }
 
     @When("I select a charging station for information")
@@ -88,4 +93,8 @@ public class StepsChooseChargingStation {
                 "Station status must be IN_BETRIEB_BESETZT or IN_BETRIEB_FREI");
         System.out.println("Charging Station Status: " + stationStatus);
     }
+
+    //  ERROR CASES //
+
+
 }

@@ -25,6 +25,10 @@ public class ChargingStation {
         this.chargingType = chargingType;
     }
 
+    public ChargingStation() {
+
+    }
+
     public List<ChargingPoints> getPointsList() {
         return pointsList;
     }
