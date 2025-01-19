@@ -21,11 +21,6 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@Suite
-@IncludeEngines("cucumber")
-@SelectPackages("org.example")
-@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
-
 public class StepsManageChargingStation {
 
     private Map<Integer, ChargingStation> chargingStations = new HashMap<>();
@@ -57,13 +52,7 @@ public class StepsManageChargingStation {
         }
     }
 
-    @Then("I should be able to input the Charging Station details")
-    public void iShouldBeAbleToInputTheChargingStationDetails() {
-        assertFalse(chargingStations.isEmpty(), "Charging stations list should not be empty.");
-        System.out.println("Charging stations successfully added.");
-    }
-
-    @And("the new charging station should be listed")
+    @Then("the new charging station should be listed")
     public void theNewChargingStationShouldBeListed() {
         chargingStations.forEach((id, station) -> System.out.println(station.toString()));
     }

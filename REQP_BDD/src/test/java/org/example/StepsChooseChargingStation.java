@@ -15,10 +15,6 @@ import java.util.Map;
 import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 import static org.junit.jupiter.api.Assertions.*;
 
-@Suite
-@IncludeEngines("cucumber")
-@SelectPackages("org.example")
-@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
 
 public class StepsChooseChargingStation {
 

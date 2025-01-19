@@ -18,10 +18,6 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@Suite
-@IncludeEngines("cucumber")
-@SelectPackages("org.example")
-@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
 
 public class StepsManageAccountData {
 
@@ -64,7 +60,7 @@ public class StepsManageAccountData {
 
     @And("I want to add funds to my account")
     public void iWantToAddFundsToMyAccount() {
-
+        System.out.println("I want to add funds to my account");
     }
 
     @When("I click on top-up")
@@ -93,7 +89,7 @@ public class StepsManageAccountData {
 
     @And("process the payment")
     public void thePaymentProcessed() {
-
+        System.out.println("Process the payment");
     }
 
     @And("the funds should be added to my account balance")

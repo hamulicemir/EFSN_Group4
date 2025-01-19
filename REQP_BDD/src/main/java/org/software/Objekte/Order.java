@@ -57,9 +57,7 @@ public class Order {
     public CHARGING_TYPE getChargingType(){
         return chargingPoint.getChargingType();
     }
-    public STATUS getStatus() {
-        return chargingPoint.getStatus();
-    }
+
 
     @Override
     public String toString() {
