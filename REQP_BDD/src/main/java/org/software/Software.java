@@ -6,6 +6,7 @@ import org.software.Objekte.*;
 
 import java.util.*;
 
+
 public class Software {
 
     private List<Customer> customerList = new ArrayList<>();
@@ -33,10 +34,10 @@ public class Software {
         customerList.forEach(System.out::println);
 
         // Predefined charging station data
-        ChargingStation station1 = new ChargingStation(101, "Main Street", 0.25, 0.50, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.AC);
-        ChargingStation station2 = new ChargingStation(102, "Highway 1", 0.30, 0.60, STATUS.IN_BETRIEB_BESETZT, CHARGING_TYPE.DC);
-        ChargingStation station3 = new ChargingStation(103, "City Center", 0.20, 0.45, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.AC);
-        ChargingStation station4 = new ChargingStation(104, "Suburb", 0.22, 0.40, STATUS.AUSSER_BETRIEB, CHARGING_TYPE.DC);
+        ChargingStation station1 = new ChargingStation(101, "Main Street", 0.25, 0.50, CHARGING_TYPE.AC);
+        ChargingStation station2 = new ChargingStation(102, "Highway 1", 0.30, 0.60, CHARGING_TYPE.DC);
+        ChargingStation station3 = new ChargingStation(103, "City Center", 0.20, 0.45,CHARGING_TYPE.AC);
+        ChargingStation station4 = new ChargingStation(104, "Suburb", 0.22, 0.40, CHARGING_TYPE.DC);
 
         System.out.println("\nCharging stations added:");
         System.out.println(station1);
@@ -45,10 +46,12 @@ public class Software {
         System.out.println(station4);
 
         // Predefined charging points data
-        ChargingPoints point1 = new ChargingPoints(1, "Main Street - Point A", STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.AC);
-        ChargingPoints point2 = new ChargingPoints(2, "Highway 1 - Point B", STATUS.IN_BETRIEB_BESETZT, CHARGING_TYPE.DC);
-        ChargingPoints point3 = new ChargingPoints(3, "City Center - Point C", STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.AC);
-        ChargingPoints point4 = new ChargingPoints(4, "Suburb - Point D", STATUS.AUSSER_BETRIEB, CHARGING_TYPE.DC);
+        ChargingPoints point1 = new ChargingPoints(1, STATUS.IN_BETRIEB_BESETZT, CHARGING_TYPE.AC);
+        ChargingPoints point2 = new ChargingPoints(2, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.DC);
+        ChargingPoints point3 = new ChargingPoints(3, STATUS.IN_BETRIEB_BESETZT, CHARGING_TYPE.DC);
+        ChargingPoints point4 = new ChargingPoints(4, STATUS.IN_BETRIEB_FREI, CHARGING_TYPE.AC);
+
+
 
         System.out.println("\nCharging points added:");
         System.out.println(point1);
@@ -85,5 +88,8 @@ public class Software {
         invoices.forEach(System.out::println);
 
         System.out.println("\nProgram initialized with predefined data.");
+
+
     }
+
 }

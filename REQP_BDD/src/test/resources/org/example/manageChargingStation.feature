@@ -24,7 +24,7 @@ Feature: Manage Charging Station
     ##############################################
 
   Scenario: Attempt to Remove Non-Existent Charging Station
-    Given I want to remove a charging station whith an id that does not exist
+    Given I want to remove a charging station with an id that does not exist
     When I remove a charging station with the following id
       | id  |
       | 999 |

@@ -30,16 +30,15 @@ Scenario: Top Up Account
   Scenario: Create Account with an invalid E-Mail
     Given I want to create an Account with an invalid E-Mail format
       | email          | name           | password    |
-      | max1examplecom | Max Mustermann | Passwort123 |
+      | max1example.com | Max Mustermann | Passwort123 |
     When I attempt to create the account with an invalid email format
     Then the system should display an error message indicating the email is invalid
 
   Scenario: Invalid Top Up Account
     Given I attempt to top up my account with a negative amount
-    When I click on top-up
-    And I provide the payment details and top-up amount
+    When I enter a negative value for the top-up amount
       | amount |
       | -50.0  |
-    Then the system should validate the payment details
+    Then the system should not validate the payment details
     And reject the top-up request
     And display an error message indicating the amount must be positive

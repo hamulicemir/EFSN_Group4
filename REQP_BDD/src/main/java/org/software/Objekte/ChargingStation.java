@@ -12,21 +12,22 @@ public class ChargingStation {
     private String location;
     private double pricePerMinute;
     private double pricePerKWh;
-    private STATUS status;
-    private CHARGING_TYPE chargingType;
+
     private List<ChargingPoints> pointsList = new LinkedList<>();
 
-    public ChargingStation (int stationID, String location, double pricePerMinute, double pricePerKWh, STATUS status, CHARGING_TYPE chargingType){
+    public ChargingStation (int stationID, String location, double pricePerMinute, double pricePerKWh, CHARGING_TYPE chargingType){
         this.stationID = stationID;
         this.location = location;
         this.pricePerMinute = pricePerMinute;
         this.pricePerKWh = pricePerKWh;
-        this.status = status;
-        this.chargingType = chargingType;
+
     }
 
     public ChargingStation() {
-
+        this.stationID = 0;
+        this.location = "";
+        this.pricePerMinute = 0;
+        this.pricePerKWh = 0;
     }
 
     public List<ChargingPoints> getPointsList() {
@@ -41,13 +42,6 @@ public class ChargingStation {
         return this.stationID;
     }
 
-    public STATUS getStatus() {
-        return this.status;
-    }
-
-    public CHARGING_TYPE getChargingType() {
-        return this.chargingType;
-    }
 
     public String getLocation (){
         return this.location;
@@ -76,7 +70,6 @@ public class ChargingStation {
         return this.pricePerMinute;
     }
 
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -84,8 +77,6 @@ public class ChargingStation {
         sb.append("Location: ").append(location).append("\n");
         sb.append("Price per minute: ").append(pricePerMinute).append("\n");
         sb.append("Price per kWh: ").append(pricePerKWh).append("\n");
-        sb.append("Status: ").append(status).append("\n");
-        sb.append("Charging Type: ").append(chargingType).append("\n");
         return sb.toString();
     }
 }

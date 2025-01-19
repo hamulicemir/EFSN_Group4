@@ -17,6 +17,7 @@ import java.util.Map;
 import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 @Suite
 @IncludeEngines("cucumber")
 @SelectPackages("org.example")
@@ -27,6 +28,7 @@ public class StepsManageAccountData {
     private String errorMessage;
     private Customer customer;
 
+    //Scenario 1
     @Given("I want to create an account with the following details")
     public void iWantToCreateAnAccountWithTheFollowingDetails(DataTable dataTable) {
         List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
@@ -50,8 +52,10 @@ public class StepsManageAccountData {
 
     @Then("the account should be successfully created")
     public void theAccountShouldBeSuccessfullyCreated() {
-        assertEquals("Account creation failed", "Max Mustermann", customer.getCustomerName());
+        assertEquals("Max Mustermann", customer.getCustomerName());
     }
+
+    //Scenario 2
 
     @Given("I have an account")
     public void iHaveAnAccount() {
@@ -87,11 +91,19 @@ public class StepsManageAccountData {
         assertTrue(customer.viewBalance() >= 0, "Balance should be non-negative");
     }
 
-    @Then("the funds should be added to my account balance")
+    @And("process the payment")
+    public void thePaymentProcessed() {
+
+    }
+
+    @And("the funds should be added to my account balance")
     public void theFundsShouldBeAddedToMyAccountBalance() {
         double balance = customer.viewBalance();
         assertTrue(balance > 0, "Funds not added to account balance");
     }
+
+
+    // Error Cases
 
     @Given("I want to create an Account with an invalid E-Mail format")
     public void iWantToCreateAnAccountWithAnInvalidEMailFormat(DataTable dataTable) {
@@ -112,18 +124,16 @@ public class StepsManageAccountData {
         assertEquals("Invalid email format", errorMessage);
     }
 
+
+    //Test Case 2
+
     @Given("I attempt to top up my account with a negative amount")
     public void iAttemptToTopUpMyAccountWithANegativeAmount() {
         customer = new Customer(1, "max1@example.com", "Max Mustermann", 100.0, "Passwort123");
     }
 
-    @When("I click on top-up")
-    public void iClickOnTopUpNegativeAmount() {
-        // Simulate clicking top-up
-    }
-
-    @And("I provide the payment details and top-up amount")
-    public void iProvideThePaymentDetailsAndTopUpAmountNegative(DataTable dataTable) {
+    @When("I enter a negative value for the top-up amount")
+    public void iEnterANegativeValueForTopUpAmount(DataTable dataTable) {
         List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> row : data) {
             double amount = Double.parseDouble(row.get("amount"));
@@ -135,7 +145,7 @@ public class StepsManageAccountData {
         }
     }
 
-    @Then("the system should validate the payment details")
+    @Then("the system should not validate the payment details")
     public void theSystemShouldValidateThePaymentDetailsNegative() {
         assertTrue(customer.viewBalance() == 100.0, "Balance should remain the same");
     }

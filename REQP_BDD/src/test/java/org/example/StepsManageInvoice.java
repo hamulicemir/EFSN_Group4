@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SelectPackages("org.example")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
 
+
 public class StepsManageInvoice {
 
     private boolean loggedInAsOwner;
