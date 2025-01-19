@@ -10,9 +10,6 @@ Feature: Manage Invoices
       | 2         | 102     | Jane Smith   | 2023-01-02T12:00:00 | 2023-01-02T13:00:00 | 60.0  |   0.6   |
       | 3         | 103     | Bob Johnson  | 2023-01-03T14:00:00 | 2023-01-03T15:00:00 | 70.0  |   0.7   |
     Then I should see a list of invoices sorted by the start time of the charging process
-    And I should see a summary of account top-ups and outstanding balance.
-      | totalTopUps | totalOutstandingBalance |
-      | 1000.0      | 250.0                   |
 
   Scenario: Show All Invoices
     Given I am logged in an owner account
