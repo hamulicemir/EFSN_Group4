@@ -42,3 +42,14 @@ Feature: Manage Account Data
     Then the system should not validate the payment details
     And reject the top-up request
     And display an error message indicating the amount must be positive
+
+  ##############################################
+     #            EDGE CASES               #
+  ##############################################
+
+  Scenario: Create Account with an already registered email
+    Given I want to create an account with the following details
+      | email            | name            | password    |
+      | max1@example.com | Max Mustermann  | Passwort123 |
+    When I attempt to create the account with an already registered email
+    Then the system should display an error message indicating the email is already registered

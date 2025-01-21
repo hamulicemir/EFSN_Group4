@@ -37,3 +37,23 @@ Scenario: View Charging Station Information
       | station_id |
       | abc        |
     Then the system should display an error message indicating the station ID is invalid
+
+    ##############################################
+       #            EDGE CASES               #
+    ##############################################
+
+  Scenario: Multiple Charging Stations Selected Simultaneously
+    Given I want to view the status of multiple charging stations at once
+    When I select multiple charging stations simultaneously for status
+      | station_id |
+      | 101        |
+      | 102        |
+      | 103        |
+      | 104        |
+    Then the system should display the status of all selected charging stations
+      | station_id | status    |
+      | 101        | Occupied  |
+      | 102        | Available |
+      | 103        | Available |
+      | 104        | Occupied  |
+    And if the system cannot process simultaneous requests, it should display an error.

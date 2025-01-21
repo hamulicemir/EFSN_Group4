@@ -20,7 +20,7 @@ Feature: Manage Charging Station
 
       ##############################################
        #            ERROR CASES               #
-    ##############################################
+      ##############################################
 
   Scenario: Attempt to Remove Non-Existent Charging Station
     Given I want to remove a charging station with an id that does not exist
@@ -37,3 +37,7 @@ Feature: Manage Charging Station
       | 202 | Main Street    | -0.3           | 0.6         | IN_BETRIEB_FREI |              |
     Then I should see an error message "Invalid details provided for the Charging Station"
     And the charging station should not be added to the listing
+
+     ##############################################
+       #            EDGE CASES               #
+    ##############################################
