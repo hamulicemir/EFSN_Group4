@@ -4,52 +4,50 @@ Feature: Manage Account Data
   in order to update my personal information.
 
   Scenario: Create Account
-    Given I want to create an account with the following details
+    When I provide my email, my full name and a valid password
       | email             | name            | password    |
       | max1@example.com  | Max Mustermann  | Passwort123 |
-    When I provide all the required information
-    Then the system should validate the provided data
-    And the account should be successfully created
+    Then my account should be created with the following data
+      | email             | name            | password    |
+      | max1@example.com  | Max Mustermann  | Passwort123 |
 
   Scenario: Top Up Account
-    Given I have an account
-    And I want to add funds to my account
-    When I click on top-up
+    Given I am logged in as a customer
+    When I enter an amount of money I want to add to my account balance
     And I provide the payment details and top-up amount
-      | amount |
-      | 50.0   |
-      | 100.0  |
-    Then the system should validate the payment details
-    And process the payment
-    And the funds should be added to my account balance
+      | amount | balance
+      | 50.0   | 0.0
+    Then the amount should be added to the account balance
+      | balance |
+      | 50.0    |
 
     ##############################################
        #            ERROR CASES               #
     ##############################################
 
   Scenario: Create Account with an invalid E-Mail
-    Given I want to create an Account with an invalid E-Mail format
-      | email          | name           | password    |
-      | max1example.com | Max Mustermann | Passwort123 |
     When I attempt to create the account with an invalid email format
-    Then the system should display an error message indicating the email is invalid
+      | email             | name            | password    |
+      | max1example.com   | Max Mustermann  | Passwort123 |
+    Then the system should display the error message: "This email is invalid. Please enter a valid email adress!"
 
   Scenario: Invalid Top Up Account
     Given I attempt to top up my account with a negative amount
     When I enter a negative value for the top-up amount
       | amount |
       | -50.0  |
-    Then the system should not validate the payment details
-    And reject the top-up request
-    And display an error message indicating the amount must be positive
+    Then the system should display the error message: "The topup amount has to be positive!"
+
 
   ##############################################
      #            EDGE CASES               #
   ##############################################
 
   Scenario: Create Account with an already registered email
-    Given I want to create an account with the following details
+    Given the following email is already registered
+      | email            |
+      | max1@example.com |
+    When I attempt to create the account with the following details
       | email            | name            | password    |
       | max1@example.com | Max Mustermann  | Passwort123 |
-    When I attempt to create the account with an already registered email
-    Then the system should display an error message indicating the email is already registered
+    Then the system should display the error message: "This email is not available. Please enter a valid email adress!"

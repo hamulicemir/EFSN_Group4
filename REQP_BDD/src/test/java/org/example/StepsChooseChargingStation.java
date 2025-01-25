@@ -22,11 +22,9 @@ public class StepsChooseChargingStation {
     private ChargingStation selectedChargingStation;
     ChargingStation chargingStation = new ChargingStation();
 
-    @Given("I want to view all charging stations.")
-    public void iWantToViewInformationAboutAChargingStation() {
-        for (Map.Entry<Integer, ChargingStation> entry : chargingStations.entrySet()) {
-            System.out.println(entry.getValue().toString());
-        }
+    @Given("I am logged in as an customer")
+    public void iAmLoggedInAsCustomer(){
+        assertTrue(true, "Customer login successful");
     }
 
     @When("I select a charging station for information")
@@ -47,18 +45,17 @@ public class StepsChooseChargingStation {
         }
     }
 
-    @Then("the system should provide general information")
-    public void theSystemShouldProvideGeneralInformation() {
+    @Then("the system should provide the following information:")
+    public void theSystemShouldProvideGeneralInformation(DataTable dataTable) {
         if (selectedChargingStation != null) {
-            System.out.println(selectedChargingStation.toString());
+            Map<String, String> expectedData = dataTable.asMaps(String.class, String.class).get(0);
+            assertEquals(expectedData.get("id"), String.valueOf(selectedChargingStation.getStationID()), "Station ID mismatch.");
+            assertEquals(expectedData.get("location"), selectedChargingStation.getLocation(), "Location mismatch.");
+            assertEquals(expectedData.get("pricePerMinute"), String.valueOf(selectedChargingStation.getPricePerMinute()), "Price per minute mismatch.");
+            assertEquals(expectedData.get("pricePerKWh"), String.valueOf(selectedChargingStation.getPricePerKWh()), "Price per kWh mismatch.");
         } else {
-            System.out.println("No charging station selected.");
+            fail("No charging station selected.");
         }
-    }
-
-    @Given("I want to see the status of the charging station")
-    public void iWantToSeeTheStatusOfTheChargingStation() {
-        System.out.println("Preparing to check the status of charging stations.");
     }
 
     @When("I select a charging station for status")

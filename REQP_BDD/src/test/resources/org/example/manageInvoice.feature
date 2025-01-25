@@ -9,6 +9,7 @@ Feature: Manage Invoices
       | 1         | 101     | John Doe     | 2023-01-01T10:00:00 | 2023-01-01T11:00:00 | 50.0  |   0.5   |
       | 2         | 102     | Jane Smith   | 2023-01-02T12:00:00 | 2023-01-02T13:00:00 | 60.0  |   0.6   |
       | 3         | 103     | Bob Johnson  | 2023-01-03T14:00:00 | 2023-01-03T15:00:00 | 70.0  |   0.7   |
+
   Scenario: Show All Invoices
     When I request to see all invoices
     Then I should see a comprehensive list of invoices across all locations
@@ -48,7 +49,4 @@ Feature: Manage Invoices
       | invoiceId | orderId | customerName | startTime           | endTime             | total | price |
       | 1         | 101     | John Doe     | 2023-01-01T10:00:00 | 2023-01-01T11:00:00 | 50.0  | 0.5   |
       | 1         | 104     | Alice Brown  | 2023-01-04T14:00:00 | 2023-01-04T15:00:00 | 80.0  | 0.8   |
-      | 2         | 102     | Jane Smith   | 2023-01-02T12:00:00 | 2023-01-02T13:00:00 | 60.0  | 0.6   |
-    Then I should see an error message for duplicate invoice IDs:
-      | invoiceId | error                |
-      | 1         | Duplicate invoice ID |
+    Then the system should display the error message: "Duplicate invoice ID"

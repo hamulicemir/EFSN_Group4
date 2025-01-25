@@ -20,7 +20,6 @@ public class ChargingStation {
         this.location = location;
         this.pricePerMinute = pricePerMinute;
         this.pricePerKWh = pricePerKWh;
-
     }
 
     public ChargingStation() {
