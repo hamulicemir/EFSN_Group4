@@ -5,32 +5,20 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.jupiter.api.Test;
-import org.junit.platform.suite.api.ConfigurationParameter;
-import org.junit.platform.suite.api.IncludeEngines;
-import org.junit.platform.suite.api.SelectPackages;
-import org.junit.platform.suite.api.Suite;
-import org.software.Enums.CHARGING_TYPE;
-import org.software.Enums.STATUS;
-import org.software.Objekte.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class StepsManageInvoice {
 
+    //Test Case 1
     @When("I view the invoice section")
     public void iViewTheInvoiceSection(DataTable dataTable) {
         List<Map<String, String>> invoiceData = dataTable.asMaps(String.class, String.class);
 
-        // Print each invoice directly from the table
         for (Map<String, String> row : invoiceData) {
             System.out.println("Invoice ID: " + row.get("invoiceId") +
                     ", Order ID: " + row.get("orderId") +
@@ -68,6 +56,8 @@ public class StepsManageInvoice {
         }
     }
 
+    //Test Case 2
+
     @When("I request to see all invoices")
     public void iRequestToSeeAllInvoices() {
         System.out.println("Requested to see all invoices.");
@@ -77,7 +67,6 @@ public class StepsManageInvoice {
     public void iShouldSeeAComprehensiveListOfInvoices(DataTable dataTable) {
         List<Map<String, String>> invoiceData = dataTable.asMaps(String.class, String.class);
 
-        // Assert that the list is not empty
         assertFalse(invoiceData.isEmpty(), "The invoice list should not be empty.");
 
         for (Map<String, String> invoice : invoiceData) {
@@ -96,6 +85,7 @@ public class StepsManageInvoice {
         System.out.println("Verified list can be filtered by attributes.");
     }
 
+    //Error Case 1
     @When("I view all invoices of a chosen customer")
     public void iViewAllInvoicesOfACustomer() {
         System.out.println("Viewing invoices for a chosen customer.");
@@ -112,6 +102,7 @@ public class StepsManageInvoice {
         System.out.println("Verified the invoice list is empty.");
     }
 
+    //Error Case 2
     @When("I view the section of all invoices")
     public void iViewTheSectionOfAllInvoices(DataTable dataTable) {
         List<Map<String, String>> invoiceData = dataTable.asMaps(String.class, String.class);
@@ -139,6 +130,7 @@ public class StepsManageInvoice {
         }
     }
 
+    //Edge Case
     @When("I view the invoice section with duplicate invoice entries")
     public void iViewTheInvoiceSectionWithDuplicateInvoiceEntries(DataTable dataTable) {
         List<Map<String, String>> invoiceData = dataTable.asMaps(String.class, String.class);

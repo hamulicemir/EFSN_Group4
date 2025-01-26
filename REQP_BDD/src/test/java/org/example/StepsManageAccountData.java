@@ -4,10 +4,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.platform.suite.api.ConfigurationParameter;
-import org.junit.platform.suite.api.IncludeEngines;
-import org.junit.platform.suite.api.SelectPackages;
-import org.junit.platform.suite.api.Suite;
 import org.software.Objekte.Customer;
 import io.cucumber.datatable.DataTable;
 
@@ -16,9 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 import static org.junit.jupiter.api.Assertions.*;
-
 
 
 public class StepsManageAccountData {
@@ -56,7 +50,6 @@ public class StepsManageAccountData {
             System.out.println("Account verification passed for: " + expectedData);
         }
     }
-
 
     //Scenario 2
     private Customer loggedInCustomer;

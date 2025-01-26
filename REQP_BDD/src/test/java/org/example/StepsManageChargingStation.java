@@ -66,20 +66,16 @@ public class StepsManageChargingStation {
     public void theFollowingChargingStationsExist(DataTable dataTable) {
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> row : rows) {
-            // Parse and validate input
             int id = Integer.parseInt(row.get("id"));
             String location = row.get("location");
             double pricePerMinute = Double.parseDouble(row.get("pricePerMinute"));
             double pricePerKWh = Double.parseDouble(row.get("pricePerKWh"));
 
-            // Create and add the charging station to the map
             ChargingStation station = new ChargingStation(id, location, pricePerMinute, pricePerKWh, null);
             chargingStations.put(id, station);
         }
         System.out.println("Initialized charging stations: " + chargingStations);
     }
-
-
 
     @When("I remove a charging station with id")
     public void iRemoveAChargingStationWithId(DataTable dataTable) {
@@ -96,14 +92,12 @@ public class StepsManageChargingStation {
         }
     }
 
-
     @Then("the charging station should no longer appear in the listing:")
     public void theChargingStationShouldNoLongerAppearInTheListing(DataTable dataTable) {
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> row : rows) {
             int id = Integer.parseInt(row.get("id"));
 
-            // Check if the station is no longer in the map
             assertFalse(chargingStations.containsKey(id), "Charging station with ID " + id + " should not be in the listing.");
         }
         System.out.println("Verified the charging station has been removed.");
@@ -119,7 +113,6 @@ public class StepsManageChargingStation {
             double pricePerMinute = Double.parseDouble(expectedRow.get("pricePerMinute"));
             double pricePerKWh = Double.parseDouble(expectedRow.get("pricePerKWh"));
 
-            // Validate that the remaining stations match the expected data
             ChargingStation station = chargingStations.get(id);
             assertNotNull(station, "Expected charging station with ID " + id + " was not found.");
 
@@ -172,7 +165,7 @@ public class StepsManageChargingStation {
         System.out.println("Verified error message: " + errorMessage);
     }
 
-    @Then("no changes should be made to the listing")
+    @And("no changes should be made to the listing")
     public void noChangesShouldBeMadeToTheListing() {
         // No specific action required since we verify the final state in the next step
         System.out.println("Verified no changes were made to the listing.");
@@ -211,13 +204,12 @@ public class StepsManageChargingStation {
                 ChargingStation station = new ChargingStation(id, location);
 
                 boolean setPricePerMinuteSuccess = station.setPricePerMinute(pricePerMinute);
-                boolean setPricePerKWhSuccess =  station.setPricePerKWh(pricePerKWh);
+                boolean setPricePerKWhSuccess = station.setPricePerKWh(pricePerKWh);
 
-                if(setPricePerMinuteSuccess && setPricePerKWhSuccess) {
+                if (setPricePerMinuteSuccess && setPricePerKWhSuccess) {
                     chargingStations.put(id, station);
                     errorMessage = null;
-                }
-                else{
+                } else {
                     errorMessage = "Invalid details provided for the Charging Station";
                 }
             } catch (IllegalArgumentException e) {
@@ -226,6 +218,7 @@ public class StepsManageChargingStation {
             }
         }
     }
+
     @Then("the system should display the error message for invalid details: {string}")
     public void theSystemShouldDisplayTheErrorMessage(String expectedMessage) {
         assertNotNull(errorMessage, "Expected an error message but none was set.");
@@ -241,7 +234,6 @@ public class StepsManageChargingStation {
     }
 
     //Edge Case
-
 
     @Given("a charging station with ID {int} is currently in use")
     public void aChargingStationWithIDIsCurrentlyInUse(int id, DataTable dataTable) {

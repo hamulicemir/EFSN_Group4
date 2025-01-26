@@ -2,10 +2,6 @@ package org.example;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.*;
-import org.junit.platform.suite.api.ConfigurationParameter;
-import org.junit.platform.suite.api.IncludeEngines;
-import org.junit.platform.suite.api.SelectPackages;
-import org.junit.platform.suite.api.Suite;
 import org.software.Enums.CHARGING_TYPE;
 import org.software.Enums.STATUS;
 import org.software.Objekte.ChargingPoints;
@@ -16,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 import static org.junit.jupiter.api.Assertions.*;
 
 
