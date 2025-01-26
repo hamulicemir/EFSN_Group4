@@ -4,6 +4,10 @@ Feature: Manage Invoices
 
   Scenario: Show Invoice Status
     When I view the invoice section
+      | invoiceId | orderId | customerName | startTime           | endTime             | total |  price  |
+      | 1         | 102     | Jane Smith   | 2023-01-02T12:00:00 | 2023-01-02T13:00:00 | 60.0  |   0.6   |
+      | 2         | 101     | John Doe     | 2023-01-01T10:00:00 | 2023-01-01T11:00:00 | 50.0  |   0.5   |
+      | 3         | 103     | Bob Johnson  | 2023-01-03T14:00:00 | 2023-01-03T15:00:00 | 70.0  |   0.7   |
     Then I should see a list of invoices sorted by the start time of the charging process
       | invoiceId | orderId | customerName | startTime           | endTime             | total |  price  |
       | 1         | 101     | John Doe     | 2023-01-01T10:00:00 | 2023-01-01T11:00:00 | 50.0  |   0.5   |
@@ -49,4 +53,4 @@ Feature: Manage Invoices
       | invoiceId | orderId | customerName | startTime           | endTime             | total | price |
       | 1         | 101     | John Doe     | 2023-01-01T10:00:00 | 2023-01-01T11:00:00 | 50.0  | 0.5   |
       | 1         | 104     | Alice Brown  | 2023-01-04T14:00:00 | 2023-01-04T15:00:00 | 80.0  | 0.8   |
-    Then the system should display the error message: "Duplicate invoice ID"
+    Then the system should display the error message duplicate invoices: "Duplicate invoice ID"

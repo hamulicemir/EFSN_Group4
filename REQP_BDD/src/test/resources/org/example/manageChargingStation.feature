@@ -31,14 +31,14 @@ Feature: Manage Charging Station
     ##############################################
 
   Scenario: Attempt to Remove Non-Existent Charging Station
-    Given the following charging stations exist:
+    Given the following charging stations with this data exist:
       | id  | location       | pricePerMinute | pricePerKWh |
       | 201 | Main Street    | 0.3            | 0.6         |
       | 202 | Elm Street     | 0.4            | 0.7         |
     When I attempt to remove a charging station with the following id:
       | id  |
       | 999 |
-    Then the system should display the error message: "Charging Station with ID 999 does not exist"
+    Then the system should display the error message for non-exisiting Station: "Station 999 does not exist"
     And no changes should be made to the listing
     And the listing should still contain:
       | id  | location       | pricePerMinute | pricePerKWh |
@@ -49,7 +49,7 @@ Feature: Manage Charging Station
     When I add a new charging station with a negative price per minute value
       | id  | location       | pricePerMinute | pricePerKWh |
       | 202 | Main Street    | -0.3           | 0.6         |
-    Then the system should display the error message: "Invalid details provided for the Charging Station"
+    Then the system should display the error message for invalid details: "Invalid details provided for the Charging Station"
     And the charging station should not be added to the listing
 
     ##############################################
@@ -63,8 +63,8 @@ Feature: Manage Charging Station
     When I attempt to remove the charging station with the following id
       | id  |      status        |
       | 202 | IN_BETRIEB_BESETZT |
-    Then the system should display the error message: "Charging Station with active sessions cannot be removed"
+    Then the system should display the error message for non-removal: "Charging Station with active sessions cannot be removed"
     And the charging station should remain in the listing
-    And the listing should still contain:
+    And the listing should still contain the following data:
       | id  | location       | pricePerMinute | pricePerKWh |
       | 202 | Elm Street     | 0.4            | 0.7         |

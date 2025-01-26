@@ -21,6 +21,10 @@ public class ChargingStation {
         this.pricePerMinute = pricePerMinute;
         this.pricePerKWh = pricePerKWh;
     }
+    public ChargingStation (int stationID, String location){
+        this.stationID = stationID;
+        this.location = location;
+    }
 
     public ChargingStation() {
         this.stationID = 0;
@@ -68,9 +72,20 @@ public class ChargingStation {
     public double getPricePerMinute(){
         return this.pricePerMinute;
     }
-    public void setPricePerMinute(double pricePerMinute){
-        if(pricePerMinute > 0)
+    public boolean setPricePerMinute(double pricePerMinute){
+        if(pricePerMinute > 0) {
             this.pricePerMinute = pricePerMinute;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean setPricePerKWh(double pricePerKWh) {
+        if(pricePerKWh > 0){
+            this.pricePerKWh = pricePerKWh;
+            return true;
+        }
+        return false;
     }
 
     @Override

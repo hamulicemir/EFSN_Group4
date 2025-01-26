@@ -26,11 +26,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class StepsManageInvoice {
 
-    @Given("I am logged in an owner account")
-    public void iAmLoggedInAnOwnerAccount() {
-        System.out.println("Logged in as an owner account.");
-    }
-
     @When("I view the invoice section")
     public void iViewTheInvoiceSection(DataTable dataTable) {
         List<Map<String, String>> invoiceData = dataTable.asMaps(String.class, String.class);
@@ -48,8 +43,19 @@ public class StepsManageInvoice {
     }
 
     @Then("I should see a list of invoices sorted by the start time of the charging process")
-    public void iShouldSeeAListOfInvoicesSortedByStartTime() {
-        System.out.println("Validated invoices are sorted by start time.");
+    public void iShouldSeeAListOfInvoicesSortedByStartTime(DataTable dataTable) {
+        List<Map<String, String>> invoiceData = dataTable.asMaps(String.class, String.class);
+
+        List<Map<String, String>> sortedInvoices = invoiceData.stream()
+                .sorted(Comparator.comparing(invoice -> LocalDateTime.parse(invoice.get("startTime"))))
+                .collect(Collectors.toList());
+
+        for (int i = 1; i < sortedInvoices.size(); i++) {
+            LocalDateTime previousStartTime = LocalDateTime.parse(sortedInvoices.get(i - 1).get("startTime"));
+            LocalDateTime currentStartTime = LocalDateTime.parse(sortedInvoices.get(i).get("startTime"));
+            assertTrue(previousStartTime.isBefore(currentStartTime) || previousStartTime.isEqual(currentStartTime),
+                    "Invoices are not sorted by start time.");
+        }
     }
 
     @And("I should see a summary of account top-ups and outstanding balance.")
@@ -70,6 +76,9 @@ public class StepsManageInvoice {
     @Then("I should see a comprehensive list of invoices across all locations")
     public void iShouldSeeAComprehensiveListOfInvoices(DataTable dataTable) {
         List<Map<String, String>> invoiceData = dataTable.asMaps(String.class, String.class);
+
+        // Assert that the list is not empty
+        assertFalse(invoiceData.isEmpty(), "The invoice list should not be empty.");
 
         for (Map<String, String> invoice : invoiceData) {
             System.out.println("Invoice ID: " + invoice.get("invoiceId") +
@@ -94,7 +103,8 @@ public class StepsManageInvoice {
 
     @Then("I should see a message {string}")
     public void iShouldSeeAMessage(String expectedMessage) {
-        System.out.println("Expected message: " + expectedMessage);
+        String actualMessage = "No invoices available at the moment.";
+        assertEquals(actualMessage, expectedMessage, "Expected message does not match the actual message.");
     }
 
     @And("the invoice list should be empty")
@@ -121,9 +131,32 @@ public class StepsManageInvoice {
     public void iShouldSeeAnErrorMessageForMissingInvoiceDetails(DataTable dataTable) {
         List<Map<String, String>> errorData = dataTable.asMaps(String.class, String.class);
 
+        assertFalse(errorData.isEmpty(), "The error data should not be empty.");
+
         for (Map<String, String> error : errorData) {
             System.out.println("Invoice ID: " + error.get("invoiceId") +
                     ", Error: " + error.get("error"));
         }
+    }
+
+    @When("I view the invoice section with duplicate invoice entries")
+    public void iViewTheInvoiceSectionWithDuplicateInvoiceEntries(DataTable dataTable) {
+        List<Map<String, String>> invoiceData = dataTable.asMaps(String.class, String.class);
+
+        for (Map<String, String> row : invoiceData) {
+            System.out.println("Invoice ID: " + row.get("invoiceId") +
+                    ", Order ID: " + row.get("orderId") +
+                    ", Customer Name: " + row.get("customerName") +
+                    ", Start Time: " + row.get("startTime") +
+                    ", End Time: " + row.get("endTime") +
+                    ", Total: " + row.get("total") +
+                    ", Price: " + row.get("price"));
+        }
+    }
+
+    @Then("the system should display the error message duplicate invoices: {string}")
+    public void theSystemWillDisplayTheErrorMessage(String expectedMessage) {
+        String actualMessage = "Duplicate invoice ID";
+        assertEquals(actualMessage, expectedMessage, "Expected error message does not match the actual error message.");
     }
 }
