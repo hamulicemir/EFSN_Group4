@@ -15,8 +15,8 @@ Feature: Manage Account Data
     Given I am logged in as a customer
     When I enter an amount of money I want to add to my account balance
     And I provide the payment details and top-up amount
-      | amount | balance
-      | 50.0   | 0.0
+      | amount | balance  |
+      | 50.0   | 0.0      |
     Then the amount should be added to the account balance
       | balance |
       | 50.0    |
@@ -29,7 +29,7 @@ Feature: Manage Account Data
     When I attempt to create the account with an invalid email format
       | email             | name            | password    |
       | max1example.com   | Max Mustermann  | Passwort123 |
-    Then the system should display the error message: "This email is invalid. Please enter a valid email adress!"
+    Then the system should display the error message: "This email is invalid. Please enter a valid email address!"
 
   Scenario: Invalid Top Up Account
     Given I attempt to top up my account with a negative amount
@@ -50,4 +50,4 @@ Feature: Manage Account Data
     When I attempt to create the account with the following details
       | email            | name            | password    |
       | max1@example.com | Max Mustermann  | Passwort123 |
-    Then the system should display the error message: "This email is not available. Please enter a valid email adress!"
+    Then the system should display the error message: "This email is not available. Please enter a valid email address!"

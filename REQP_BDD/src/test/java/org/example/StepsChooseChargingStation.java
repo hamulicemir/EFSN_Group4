@@ -22,16 +22,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class StepsChooseChargingStation {
 
-    //laufzeit variablen
+    //Laufzeit Variablen
     private Map<Integer, ChargingStation> chargingStations = new HashMap<>();
     private ChargingStation selectedChargingStation;
     private List<ChargingStation> runtimeChargingStations = new ArrayList<>();
 
-    //background
-    @Given("I am logged in as a customer")
-    public void iAmLoggedInAsCustomer(){
-
-    }
 
     //Scenario 1
     @Given("the following charging stations exist:")
@@ -214,6 +209,7 @@ public class StepsChooseChargingStation {
         }
     }
 
+    //Edge Case
     @Given("a charging station with no available charging points")
     public void givenChargingStationWithNoAvailableChargingPoints(DataTable dataTable) {
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);

@@ -3,8 +3,6 @@ Feature: Choosing a charging station
   I want to choose a charging station
   So that I can use them for my devices
 
-  Background:
-    Given I am logged in as a customer
 
   Scenario: View Charging Station Information
     Given the following charging stations exist:

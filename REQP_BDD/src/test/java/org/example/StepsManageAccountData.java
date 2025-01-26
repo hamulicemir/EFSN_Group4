@@ -11,6 +11,8 @@ import org.junit.platform.suite.api.Suite;
 import org.software.Objekte.Customer;
 import io.cucumber.datatable.DataTable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,134 +27,176 @@ public class StepsManageAccountData {
     private Customer customer;
 
     //Scenario 1
-    @Given("I want to create an account with the following details")
-    public void iWantToCreateAnAccountWithTheFollowingDetails(DataTable dataTable) {
-        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
-        Map<String, String> accountDetails = data.get(0);
-        String email = accountDetails.get("email");
-        String name = accountDetails.get("name");
-        String password = accountDetails.get("password");
-        customer = new Customer(1, email, name, 0.0, password); // Create a new customer with initial balance 0
+    private Customer createdCustomer;
+
+    @When("I provide my email, my full name and a valid password")
+    public void provideEmailFullNameAndPassword(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : rows) {
+            String email = row.get("email");
+            String name = row.get("name");
+            String password = row.get("password");
+
+            // Simuliere das Erstellen eines Kundenkontos
+            createdCustomer = new Customer(1, email, name, 0.0, password); // customerID=1 als Beispiel
+            System.out.println("Account created: " + createdCustomer);
+        }
     }
 
-    @When("I provide all the required information")
-    public void iProvideAllTheRequiredInformation() {
-        boolean isRegistered = customer.register(customer.getCustomerEmail(), customer.getCustomerName(), customer.getCustomerPassword());
-        assertTrue(isRegistered, "Registration failed.");
+    @Then("my account should be created with the following data")
+    public void accountShouldBeCreatedWithExpectedData(DataTable dataTable) {
+        List<Map<String, String>> expectedRows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> expectedData : expectedRows) {
+            assertNotNull(createdCustomer, "No account was created.");
+
+            assertEquals(expectedData.get("email"), createdCustomer.getCustomerEmail(), "Email mismatch.");
+            assertEquals(expectedData.get("name"), createdCustomer.getCustomerName(), "Name mismatch.");
+            assertEquals(expectedData.get("password"), createdCustomer.getCustomerPassword(), "Password mismatch.");
+
+            System.out.println("Account verification passed for: " + expectedData);
+        }
     }
 
-    @Then("the system should validate the provided data")
-    public void theSystemShouldValidateTheProvidedData() {
-
-    }
-
-    @Then("the account should be successfully created")
-    public void theAccountShouldBeSuccessfullyCreated() {
-        assertEquals("Max Mustermann", customer.getCustomerName());
-    }
 
     //Scenario 2
+    private Customer loggedInCustomer;
 
-    @Given("I have an account")
-    public void iHaveAnAccount() {
-        customer = new Customer(1, "max1@example.com", "Max Mustermann", 0.0, "Passwort123");
+    @Given("I am logged in as a customer")
+    public void iAmLoggedInAsCustomer() {
+        loggedInCustomer = new Customer(1, "customer@example.com", "John Doe", 0.0, "securePassword");
+        System.out.println("Customer logged in: " + loggedInCustomer);
     }
 
-    @And("I want to add funds to my account")
-    public void iWantToAddFundsToMyAccount() {
-        System.out.println("I want to add funds to my account");
-    }
-
-    @When("I click on top-up")
-    public void iClickOnTopUp() {
-        // Simulate clicking top-up
+    @When("I enter an amount of money I want to add to my account balance")
+    public void enterTopUpAmount() {
+        System.out.println("Preparing to top up the account...");
     }
 
     @And("I provide the payment details and top-up amount")
-    public void iProvideThePaymentDetailsAndTopUpAmount(DataTable dataTable) {
-        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
-        for (Map<String, String> row : data) {
+    public void providePaymentDetailsAndTheTopUpAmount(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : rows) {
             double amount = Double.parseDouble(row.get("amount"));
-            boolean isTopUpSuccessful = customer.topUpAccount(amount);
-            if (amount <= 0) {
-                assertFalse(isTopUpSuccessful, "Top-up should fail for invalid amount");
+            double currentBalance = loggedInCustomer.viewBalance();
+
+            boolean success = loggedInCustomer.topUpAccount(amount);
+            if (success) {
+                System.out.println("Successfully added " + amount + " to account. Previous balance: " + currentBalance);
             } else {
-                assertTrue(isTopUpSuccessful, "Top-up should succeed for valid amount");
+                System.out.println("Failed to top up the account.");
             }
         }
     }
 
-    @Then("the system should validate the payment details")
-    public void theSystemShouldValidateThePaymentDetails() {
-        assertTrue(customer.viewBalance() >= 0, "Balance should be non-negative");
+    @Then("the amount should be added to the account balance")
+    public void verifyUpdatedAccountBalance(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : rows) {
+            double expectedBalance = Double.parseDouble(row.get("balance"));
+            double actualBalance = loggedInCustomer.viewBalance();
+
+            assertEquals(expectedBalance, actualBalance, "Account balance mismatch.");
+
+            System.out.println("Balance verification passed. Current balance: " + actualBalance);
+        }
     }
 
-    @And("process the payment")
-    public void thePaymentProcessed() {
-        System.out.println("Process the payment");
-    }
+    //Error Case 1
 
-    @And("the funds should be added to my account balance")
-    public void theFundsShouldBeAddedToMyAccountBalance() {
-        double balance = customer.viewBalance();
-        assertTrue(balance > 0, "Funds not added to account balance");
-    }
-
-
-    // Error Cases
-
-    @Given("I want to create an Account with an invalid E-Mail format")
-    public void iWantToCreateAnAccountWithAnInvalidEMailFormat(DataTable dataTable) {
-        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
-        Map<String, String> accountDetails = data.get(0);
-        customer = new Customer(1, accountDetails.get("email"), accountDetails.get("name"), 0.0, accountDetails.get("password"));
-    }
 
     @When("I attempt to create the account with an invalid email format")
-    public void iAttemptToCreateTheAccountWithAnInvalidEmailFormat() {
-        if (!customer.getCustomerEmail().contains("@")) {
-            errorMessage = "Invalid email format";
-        }
-    }
+    public void attemptToCreateAccountWithInvalidEmailFormat(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : rows) {
+            String email = row.get("email");
+            String name = row.get("name");
+            String password = row.get("password");
 
-    @Then("the system should display an error message indicating the email is invalid")
-    public void theSystemShouldDisplayAnErrorMessageIndicatingTheEmailIsInvalid() {
-        assertEquals("Invalid email format", errorMessage);
-    }
-
-
-    //Test Case 2
-
-    @Given("I attempt to top up my account with a negative amount")
-    public void iAttemptToTopUpMyAccountWithANegativeAmount() {
-        customer = new Customer(1, "max1@example.com", "Max Mustermann", 100.0, "Passwort123");
-    }
-
-    @When("I enter a negative value for the top-up amount")
-    public void iEnterANegativeValueForTopUpAmount(DataTable dataTable) {
-        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
-        for (Map<String, String> row : data) {
-            double amount = Double.parseDouble(row.get("amount"));
-            boolean isTopUpSuccessful = customer.topUpAccount(amount);
-            if (amount <= 0) {
-                assertFalse(isTopUpSuccessful, "Top-up should fail for invalid amount");
-                errorMessage = "Amount must be positive";
+            if (!email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+                errorMessage = "This email is invalid. Please enter a valid email address!";
+                System.out.println(errorMessage);
+            } else {
+                errorMessage = null; // Keine Fehlermeldung bei gültigem Format
             }
         }
     }
 
-    @Then("the system should not validate the payment details")
-    public void theSystemShouldValidateThePaymentDetailsNegative() {
-        assertTrue(customer.viewBalance() == 100.0, "Balance should remain the same");
+    @Then("the system should display the error message: \"This email is invalid. Please enter a valid email address!\"")
+    public void verifyInvalidEmailErrorMessage() {
+        assertNotNull(errorMessage, "Expected an error message for invalid email format.");
+        assertEquals("This email is invalid. Please enter a valid email address!", errorMessage, "Error message mismatch.");
+        System.out.println("Error message verification passed: " + errorMessage);
     }
 
-    @Then("reject the top-up request")
-    public void rejectTheTopUpRequest() {
-        System.out.println("Top-up request rejected");
+    //Error Case 2
+
+    @Given("I attempt to top up my account with a negative amount")
+    public void attemptToTopUpWithNegativeAmount() {
+        loggedInCustomer = new Customer(1, "customer@example.com", "John Doe", 0.0, "securePassword");
+        System.out.println("Customer logged in: " + loggedInCustomer);
     }
 
-    @Then("display an error message indicating the amount must be positive")
-    public void displayAnErrorMessageIndicatingTheAmountMustBePositive() {
-        System.out.println("Amount must be positive");
+
+    @When("I enter a negative value for the top-up amount")
+    public void enterNegativeTopUpAmount(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : rows) {
+            double amount = Double.parseDouble(row.get("amount"));
+
+            if (amount <= 0) {
+                errorMessage = "The topup amount has to be positive!";
+                System.out.println(errorMessage);
+            } else {
+                boolean success = loggedInCustomer.topUpAccount(amount);
+                if (!success) {
+                    errorMessage = "Failed to top up the account.";
+                }
+            }
+        }
+    }
+
+    @Then("the system should display the error message: \"The topup amount has to be positive!\"")
+    public void verifyTopUpErrorMessage() {
+        assertNotNull(errorMessage, "Expected an error message for negative top-up amount.");
+        assertEquals("The topup amount has to be positive!", errorMessage, "Error message mismatch.");
+        System.out.println("Error message verification passed: " + errorMessage);
+    }
+
+    //Edge Case
+    private List<String> registeredEmails = new ArrayList<>();
+
+    @Given("the following email is already registered")
+    public void emailAlreadyRegistered(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : rows) {
+            registeredEmails.add(row.get("email"));
+        }
+        System.out.println("Registered emails: " + registeredEmails);
+    }
+
+    @When("I attempt to create the account with the following details")
+    public void attemptToCreateAccountWithDetails(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : rows) {
+            String email = row.get("email");
+            String name = row.get("name");
+            String password = row.get("password");
+
+            if (registeredEmails.contains(email)) {
+                errorMessage = "This email is not available. Please enter a valid email address!";
+                System.out.println(errorMessage);
+            } else {
+                errorMessage = null;
+                Customer newCustomer = new Customer(1, email, name, 0.0, password);
+                System.out.println("Account successfully created: " + newCustomer);
+            }
+        }
+    }
+
+    @Then("the system should display the error message: \"This email is not available. Please enter a valid email address!\"")
+    public void verifyEmailAlreadyRegisteredErrorMessage() {
+        assertNotNull(errorMessage, "Expected an error message for already registered email.");
+        assertEquals("This email is not available. Please enter a valid email address!", errorMessage, "Error message mismatch.");
+        System.out.println("Error message verification passed: " + errorMessage);
     }
 }

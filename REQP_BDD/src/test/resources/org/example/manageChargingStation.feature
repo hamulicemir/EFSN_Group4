@@ -3,8 +3,6 @@ Feature: Manage Charging Station
   I want to manage charging stations
   So that I can ensure optimal operation, availability, and customer satisfaction.
 
-  Background:
-    Given I am logged in as an owner
 
   Scenario: Add Charging Station
   When I add a new charging station with details
@@ -20,9 +18,9 @@ Feature: Manage Charging Station
     | 201 |
   Then charging Station should be removed from the listing
 
-      ##############################################
-       #            ERROR CASES               #
-      ##############################################
+    ##############################################
+     #            ERROR CASES               #
+    ##############################################
 
   Scenario: Attempt to Remove Non-Existent Charging Station
     When I remove a charging station with the following id
