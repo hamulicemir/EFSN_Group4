@@ -68,6 +68,10 @@ public class ChargingStation {
     public double getPricePerMinute(){
         return this.pricePerMinute;
     }
+    public void setPricePerMinute(double pricePerMinute){
+        if(pricePerMinute > 0)
+            this.pricePerMinute = pricePerMinute;
+    }
 
     @Override
     public String toString() {

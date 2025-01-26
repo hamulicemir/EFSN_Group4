@@ -26,11 +26,7 @@ public class StepsManageChargingStation {
     private Map<Integer, ChargingStation> chargingStations = new HashMap<>();
     private String errorMessage;
 
-    @Given("I want to add a charging station")
-    public void iWantToAddAChargingStation() {
-        System.out.println("Ready to add a new charging station.");
-    }
-
+    //Test Case 1
     @When("I add a new charging station with details")
     public void iAddANewChargingStationWithDetails(DataTable dataTable) {
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
@@ -40,9 +36,8 @@ public class StepsManageChargingStation {
                 String location = row.get("location");
                 double pricePerMinute = Double.parseDouble(row.get("pricePerMinute"));
                 double pricePerKWh = Double.parseDouble(row.get("pricePerKWh"));
-                CHARGING_TYPE chargingType = CHARGING_TYPE.valueOf(row.get("chargingType"));
 
-                ChargingStation station = new ChargingStation(id, location, pricePerMinute, pricePerKWh, chargingType);
+                ChargingStation station = new ChargingStation(id, location, pricePerMinute, pricePerKWh, null);
                 chargingStations.put(id, station);
 
                 System.out.println("Added charging station: " + station.toString());
@@ -53,38 +48,90 @@ public class StepsManageChargingStation {
     }
 
     @Then("the new charging station should be listed")
-    public void theNewChargingStationShouldBeListed() {
-        chargingStations.forEach((id, station) -> System.out.println(station.toString()));
+    public void theNewChargingStationShouldBeListed(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : rows) {
+            int id = Integer.parseInt(row.get("id"));
+            ChargingStation station = chargingStations.get(id);
+            assertNotNull(station, "Charging station with ID " + id + " should be listed.");
+            assertEquals(row.get("location"), station.getLocation(), "Location mismatch.");
+            assertEquals(Double.parseDouble(row.get("pricePerMinute")), station.getPricePerMinute(), 0.01, "Price per minute mismatch.");
+            assertEquals(Double.parseDouble(row.get("pricePerKWh")), station.getPricePerKWh(), 0.01, "Price per kWh mismatch.");
+        }
     }
 
-    @Given("I want to remove a charging station")
-    public void iWantToRemoveAChargingStation() {
-        System.out.println("Ready to remove a charging station.");
+    //Test Case 2
+
+    @Given("the following charging stations are existing:")
+    public void theFollowingChargingStationsExist(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : rows) {
+            // Parse and validate input
+            int id = Integer.parseInt(row.get("id"));
+            String location = row.get("location");
+            double pricePerMinute = Double.parseDouble(row.get("pricePerMinute"));
+            double pricePerKWh = Double.parseDouble(row.get("pricePerKWh"));
+
+            // Create and add the charging station to the map
+            ChargingStation station = new ChargingStation(id, location, pricePerMinute, pricePerKWh, null);
+            chargingStations.put(id, station);
+        }
+        System.out.println("Initialized charging stations: " + chargingStations);
     }
+
+
 
     @When("I remove a charging station with id")
     public void iRemoveAChargingStationWithId(DataTable dataTable) {
-        // Extract only the rows, ignoring the header
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> row : rows) {
-            try {
-                int id = Integer.parseInt(row.get("id")); // Access the "id" column
-                if (chargingStations.containsKey(id)) {
-                    chargingStations.remove(id);
-                    System.out.println("Removed charging station with ID: " + id);
-                } else {
-                    System.out.println("Charging station with ID " + id + " not found.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid ID format: " + row.get("id"));
+            int id = Integer.parseInt(row.get("id"));
+
+            if (chargingStations.containsKey(id)) {
+                chargingStations.remove(id);
+                System.out.println("Removed charging station with ID: " + id);
+            } else {
+                System.out.println("Charging station with ID " + id + " does not exist.");
             }
         }
     }
 
-    @Then("charging Station should be removed from the listing")
-    public void chargingStationShouldBeRemovedFromTheListing() {
-        assertTrue(chargingStations.isEmpty(), "Charging station should be removed.");
+
+    @Then("the charging station should no longer appear in the listing:")
+    public void theChargingStationShouldNoLongerAppearInTheListing(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : rows) {
+            int id = Integer.parseInt(row.get("id"));
+
+            // Check if the station is no longer in the map
+            assertFalse(chargingStations.containsKey(id), "Charging station with ID " + id + " should not be in the listing.");
+        }
+        System.out.println("Verified the charging station has been removed.");
     }
+
+
+    @Then("the listing should now contain:")
+    public void theListingShouldNowContain(DataTable dataTable) {
+        List<Map<String, String>> expectedRows = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> expectedRow : expectedRows) {
+            int id = Integer.parseInt(expectedRow.get("id"));
+            String location = expectedRow.get("location");
+            double pricePerMinute = Double.parseDouble(expectedRow.get("pricePerMinute"));
+            double pricePerKWh = Double.parseDouble(expectedRow.get("pricePerKWh"));
+
+            // Validate that the remaining stations match the expected data
+            ChargingStation station = chargingStations.get(id);
+            assertNotNull(station, "Expected charging station with ID " + id + " was not found.");
+
+            assertEquals(location, station.getLocation(), "Location mismatch for station ID " + id);
+            assertEquals(pricePerMinute, station.getPricePerMinute(), "Price per minute mismatch for station ID " + id);
+            assertEquals(pricePerKWh, station.getPricePerKWh(), "Price per kWh mismatch for station ID " + id);
+
+            System.out.println("Verified charging station: " + station);
+        }
+    }
+
+    //error cases
 
     @Given("I want to remove a charging station with an id that does not exist")
     public void iWantToRemoveAChargingStationWithAnIdThatDoesNotExist() {
@@ -93,11 +140,10 @@ public class StepsManageChargingStation {
 
     @When("I remove a charging station with the following id")
     public void iRemoveAChargingStationWithTheFollowingId(DataTable dataTable) {
-        // Extract only the rows, ignoring the header
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> row : rows) {
             try {
-                int id = Integer.parseInt(row.get("id")); // Extract the "id" value from the row
+                int id = Integer.parseInt(row.get("id"));
                 if (chargingStations.containsKey(id)) {
                     chargingStations.remove(id);
                     System.out.println("Removed charging station with ID: " + id);
