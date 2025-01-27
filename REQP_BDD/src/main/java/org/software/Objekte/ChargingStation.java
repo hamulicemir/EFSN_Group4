@@ -12,7 +12,6 @@ public class ChargingStation {
     private String location;
     private double pricePerMinute;
     private double pricePerKWh;
-
     private List<ChargingPoints> pointsList = new LinkedList<>();
 
     public ChargingStation (int stationID, String location, double pricePerMinute, double pricePerKWh, CHARGING_TYPE chargingType){
@@ -45,7 +44,6 @@ public class ChargingStation {
         return this.stationID;
     }
 
-
     public String getLocation (){
         return this.location;
     }
@@ -61,6 +59,17 @@ public class ChargingStation {
             return true;
         } else {
             System.out.println("Charging point not found.");
+            return false;
+        }
+    }
+
+    public boolean removeChargingStation(ChargingStation station) {
+        if (pointsList.contains(station)) {
+            pointsList.remove(station);
+            System.out.println("Charging station removed successfully.");
+            return true;
+        } else {
+            System.out.println("Charging station not found.");
             return false;
         }
     }

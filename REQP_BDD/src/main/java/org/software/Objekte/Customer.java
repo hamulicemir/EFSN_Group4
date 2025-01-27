@@ -27,6 +27,10 @@ public class Customer {
         if (customerEmail == null || customerName == null || customerPassword == null) {
             return false;
         }
+        if(customerEmail.equals(this.customerEmail)){
+            System.out.println("This email is not available. Please enter a valid email address!");
+            return false;
+        }
         this.customerEmail = customerEmail;
         this.customerName = customerName;
         this.customerPassword = customerPassword;
@@ -45,7 +49,7 @@ public class Customer {
     }
 
     public boolean topUpAccount (double amount){
-        if (amount <=0){
+        if (amount <= 0){
             return false;
         }
         this.customerBalance += amount;
