@@ -6,11 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="b87c75fd-721b-44dd-8031-6383f49a89ba" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/software/Software.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/main/java/org/software/Software.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsChooseChargingStation.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsChooseChargingStation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsManageAccountData.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsManageAccountData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsManageChargingStation.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsManageChargingStation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsManageInvoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/test/java/org/example/StepsManageInvoice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REQP_BDD/src/test/resources/org/example/manageAccountData.feature" beforeDir="false" afterPath="$PROJECT_DIR$/REQP_BDD/src/test/resources/org/example/manageAccountData.feature" afterDir="false" />
     </list>
     <list id="a2a7ce09-fc11-433e-b042-979ab0ba8754" name="Changes by Markus" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +66,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/adirg/OneDrive/Desktop/Beispiel",
+    "last_opened_file_path": "C:/Users/tmark/Downloads/EFSN_Group4",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -79,7 +79,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.StepsChooseChargingStation">
+  <component name="RunManager" selected="JUnit.RunCucumberTest">
     <configuration name="Feature: chooseChargingStation" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="5" />
       <option name="FILE_PATH" value="$PROJECT_DIR$/REQP_BDD/src/test/resources/org/example/chooseChargingStation.feature" />
@@ -99,22 +99,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Scenario: View Charging Station Information" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
-      <option name="CUCUMBER_CORE_VERSION" value="5" />
-      <option name="FILE_PATH" value="$PROJECT_DIR$/REQP_BDD/src/test/resources/org/example/chooseChargingStation.feature" />
-      <option name="GLUE" value="org.example" />
-      <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
+    <configuration name="RunCucumberTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="REQP_BDD" />
-      <option name="NAME_FILTER" value="^View Charging Station Information$" />
-      <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter --name &quot;^View Charging Station Information$&quot;" />
-      <option name="SUGGESTED_NAME" value="Scenario: View Charging Station Information" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="io.cucumber.core.cli.*" />
+          <option name="PATTERN" value="org.example.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="org.example" />
+      <option name="MAIN_CLASS_NAME" value="org.example.RunCucumberTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -166,11 +161,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.RunCucumberTest" />
         <item itemvalue="JUnit.StepsChooseChargingStation" />
         <item itemvalue="JUnit.StepsManageChargingStation" />
         <item itemvalue="JUnit.StepsManageAccountData" />
         <item itemvalue="Cucumber Java.Feature: chooseChargingStation" />
-        <item itemvalue="Cucumber Java.Scenario: View Charging Station Information" />
       </list>
     </recent_temporary>
   </component>

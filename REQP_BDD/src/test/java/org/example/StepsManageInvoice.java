@@ -46,15 +46,6 @@ public class StepsManageInvoice {
         }
     }
 
-    @And("I should see a summary of account top-ups and outstanding balance.")
-    public void iShouldSeeASummaryOfAccountTopUpsAndOutstandingBalance(DataTable summaryTable) {
-        List<Map<String, String>> summaryData = summaryTable.asMaps(String.class, String.class);
-
-        for (Map<String, String> row : summaryData) {
-            System.out.println("Total Top-ups: " + row.get("totalTopUps") +
-                    ", Outstanding Balance: " + row.get("totalOutstandingBalance"));
-        }
-    }
 
     //Test Case 2
 

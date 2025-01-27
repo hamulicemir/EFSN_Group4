@@ -123,13 +123,6 @@ public class StepsManageAccountData {
 
     //Error Case 2
 
-    @Given("I attempt to top up my account with a negative amount")
-    public void attemptToTopUpWithNegativeAmount() {
-        loggedInCustomer = new Customer(1, "customer@example.com", "John Doe", 0.0, "securePassword");
-        System.out.println("Customer logged in: " + loggedInCustomer);
-    }
-
-
     @When("I enter a negative value for the top-up amount")
     public void enterNegativeTopUpAmount(DataTable dataTable) {
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);

@@ -32,7 +32,7 @@ Feature: Manage Account Data
     Then the system should display the error message: "This email is invalid. Please enter a valid email address!"
 
   Scenario: Invalid Top Up Account
-    Given I attempt to top up my account with a negative amount
+
     When I enter a negative value for the top-up amount
       | amount |
       | -50.0  |

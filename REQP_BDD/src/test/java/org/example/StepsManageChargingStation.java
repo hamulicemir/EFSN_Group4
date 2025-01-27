@@ -104,7 +104,7 @@ public class StepsManageChargingStation {
     }
 
 
-    @Then("the listing should now contain:")
+    @And("the listing should now contain:")
     public void theListingShouldNowContain(DataTable dataTable) {
         List<Map<String, String>> expectedRows = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> expectedRow : expectedRows) {
@@ -171,7 +171,7 @@ public class StepsManageChargingStation {
         System.out.println("Verified no changes were made to the listing.");
     }
 
-    @Then("the listing should still contain:")
+    @And("the listing should still contain:")
     public void theListingShouldStillContain(DataTable dataTable) {
         List<Map<String, String>> expectedRows = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> expectedRow : expectedRows) {
@@ -226,7 +226,7 @@ public class StepsManageChargingStation {
         System.out.println("Verified error message: " + errorMessage);
     }
 
-    @Then("the charging station should not be added to the listing")
+    @And("the charging station should not be added to the listing")
     public void theChargingStationShouldNotBeAddedToTheListing() {
         int invalidId = 202; // Replace with the ID from the scenario
         assertFalse(chargingStations.containsKey(invalidId), "Charging station with ID " + invalidId + " should not be in the listing.");
@@ -287,14 +287,14 @@ public class StepsManageChargingStation {
         System.out.println("Verified error message: " + errorMessage);
     }
 
-    @Then("the charging station should remain in the listing")
+    @And("the charging station should remain in the listing")
     public void theChargingStationShouldRemainInTheListing() {
         int id = 202;
         assertTrue(chargingStations.containsKey(id), "Charging station with ID " + id + " should still be in the listing.");
         System.out.println("Verified the charging station remains in the listing.");
     }
 
-    @Then("the listing should still contain the following data:")
+    @And("the listing should still contain the following data:")
     public void theListingShouldStillContainFollowingData(DataTable dataTable) {
         List<Map<String, String>> expectedRows = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> expectedRow : expectedRows) {

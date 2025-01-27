@@ -132,11 +132,6 @@ public class StepsChooseChargingStation {
 
     //  ERROR CASES //
 
-    @Given("I want to see the status of a non-existing charging station")
-    public void iWantToSeeTheStatusOfANonExistingChargingStation() {
-        selectedChargingStation = null;
-    }
-
     @When("I search an id for a non-existing charging station to check the status")
     public void searchNonExistentChargingStationStatus(DataTable dataTable) {
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);

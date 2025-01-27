@@ -26,7 +26,7 @@ Feature: Choosing a charging station
     Then the system should show me if the charging station is occupied
 
     ##############################################
-       #            ERROR CASES               #s
+       #            ERROR CASES               #
     ##############################################
 
   Scenario: Non-existent Charging Station Status
